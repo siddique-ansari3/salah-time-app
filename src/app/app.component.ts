@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MosquesComponent } from './mosques/mosques.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: '<app-mosques></app-mosques>', // Use the MosquesComponent selector here
+  standalone: true,
+  imports: [MosquesComponent],
 })
-export class AppComponent {
-  title = 'salah-time-app';
-}
+export class AppComponent {}
