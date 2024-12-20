@@ -5,11 +5,12 @@ import { MosqueService } from '../mosque.service';
 import { Mosque } from './mosque.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { MosqueDetailsComponent } from '../mosque-details/mosque-details.component';
 
 @Component({
   selector: 'app-mosques',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MosqueDetailsComponent],
   templateUrl: './mosques.component.html',
 })
 export class MosquesComponent {
