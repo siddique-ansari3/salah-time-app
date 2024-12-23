@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
+import { MosquesComponent } from './mosques/mosques.component';
+import { MosqueDetailsComponent } from './mosque-details/mosque-details.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'user-details', component: UserDetailsComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }  // Redirect to login by default
+  { path: '', redirectTo: '/mosques', pathMatch: 'full' },
+  { path: 'mosques', component: MosquesComponent },
+  { path: 'mosque/:id', component: MosqueDetailsComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -12,6 +12,7 @@ import { MosqueDetailsComponent } from '../mosque-details/mosque-details.compone
   standalone: true,
   imports: [CommonModule, FormsModule, MosqueDetailsComponent],
   templateUrl: './mosques.component.html',
+  styleUrl: './mosques.component.css',
 })
 export class MosquesComponent {
   mosques: Mosque[] = [];
@@ -30,6 +31,7 @@ export class MosquesComponent {
   newMosque: Mosque = {
     name: '',
     location: '',
+    name_urdu: '',
     timings: {
       fajr: '',
       dhuhr: '',
@@ -172,6 +174,7 @@ export class MosquesComponent {
     this.newMosque = {
       name: '',
       location: '',
+      name_urdu: '',
       timings: { fajr: '', dhuhr: '', asr: '', maghrib: '', isha: '', juma: '' },
     };
     this.isEditing = false;

@@ -3,8 +3,7 @@ import { MosquesComponent } from './mosques/mosques.component';
 
 @Component({
   selector: 'app-root',
-  template: '<app-mosques></app-mosques>', // Use the MosquesComponent selector here
-  standalone: true,
+  template: '<app-mosques></app-mosques>',
   imports: [MosquesComponent],
 })
 export class AppComponent {}
