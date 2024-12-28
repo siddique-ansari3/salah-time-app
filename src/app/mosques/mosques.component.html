@@ -1,83 +1,134 @@
 <div class="search-bar">
-    <input [(ngModel)]="searchQuery" (input)="searchMosques()" placeholder="Search mosques" />
-  </div>
-  
-  <div *ngIf="isAdmin()">
-    <h3>{{ isEditing ? 'Edit Mosque' : 'Add New Mosque' }}</h3>
-    <form (ngSubmit)="addOrUpdateMosque()">
-      <label for="name">Mosque Name:</label>
-      <input id="name" [(ngModel)]="newMosque.name" name="name" required />
-  
-      <label for="location">Location:</label>
-      <input id="location" [(ngModel)]="newMosque.location" name="location" required />
-  
+  <input [(ngModel)]="searchQuery" (input)="searchMosques()" placeholder="Search mosques" />
+</div>
+
+<div *ngIf="isAdmin()">
+  <h3>{{ isEditing ? 'Edit Mosque' : 'Add New Mosque' }}</h3>
+  <form (ngSubmit)="addOrUpdateMosque()">
+    <label for="name">Mosque Name:</label>
+    <input
+      id="name"
+      [(ngModel)]="newMosque.name[selectedLanguage]"
+      name="name"
+      required
+    />
+
+    <label for="location">Location:</label>
+    <input
+      id="location"
+      [(ngModel)]="newMosque.location[selectedLanguage]"
+      name="location"
+      required
+    />
+
+    <div>
+      <label>Prayer Timings:</label>
       <div>
-        <label>Prayer Timings:</label>
-        <div>
-          <label for="fajr">Fajr:</label>
-          <input id="fajr" [(ngModel)]="newMosque.timings.fajr" name="fajr" />
-        </div>
-        <div>
-          <label for="dhuhr">Dhuhr:</label>
-          <input id="dhuhr" [(ngModel)]="newMosque.timings.dhuhr" name="dhuhr" />
-        </div>
-        <div>
-          <label for="asr">Asr:</label>
-          <input id="asr" [(ngModel)]="newMosque.timings.asr" name="asr" />
-        </div>
-        <div>
-          <label for="maghrib">Maghrib:</label>
-          <input id="maghrib" [(ngModel)]="newMosque.timings.maghrib" name="maghrib" />
-        </div>
-        <div>
-          <label for="isha">Isha:</label>
-          <input id="isha" [(ngModel)]="newMosque.timings.isha" name="isha" />
-        </div>
-        <div>
-          <label for="juma">Juma:</label>
-          <input id="juma" [(ngModel)]="newMosque.timings.juma" name="juma" />
-        </div>
+        <label for="fajr">Fajr:</label>
+        <input
+          id="fajr"
+          [(ngModel)]="newMosque.timings.fajr[selectedLanguage]"
+          name="fajr"
+        />
       </div>
-  
-      <button type="submit">{{ isEditing ? 'Update' : 'Add' }} Mosque</button>
-      <button type="button" (click)="resetForm()">Cancel</button>
-    </form>
-  </div>
-  
-  <div class="filter">
-    <label for="sortBy">Sort by:</label>
-    <select id="sortBy" [(ngModel)]="sortBy" (change)="applySorting()">
-      <option value="name">Name</option>
-      <option value="location">Location</option>
-      <option value="fajr">Fajr</option>
-      <option value="dhuhr">Dhuhr</option>
-      <option value="asr">Asr</option>
-      <option value="maghrib">Maghrib</option>
-      <option value="isha">Isha</option>
-      <option value="juma">Juma</option>
-    </select>
-    
-    <select [(ngModel)]="sortOrder" (change)="applySorting()">
-      <option value="asc">Ascending</option>
-      <option value="desc">Descending</option>
-    </select>
-  </div>
-  
-  <div class="mosques-list">
-    <ul>
-      <li *ngFor="let mosque of filteredMosques">
-        <div>
-          <h3>{{ mosque.name }}</h3>
-          <p>{{ mosque.location }}</p>
-          <p>Timings: {{ mosque.timings.fajr }} - {{ mosque.timings.dhuhr }} - {{ mosque.timings.asr }} - {{ mosque.timings.maghrib }} - {{ mosque.timings.isha }} - {{ mosque.timings.juma }}</p>
-          <button *ngIf="isAdmin()" (click)="editMosque(mosque)">Edit</button>
-          <button *ngIf="isAdmin()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
-          <button (click)="viewMosqueDetails(mosque)">View Details</button>
-        </div>
-      </li>
-    </ul>
-  </div>
-  
-  <div *ngIf="selectedMosque">
-    <app-mosque-details [mosque]="selectedMosque" (back)="goBack()"></app-mosque-details>
-  </div>
+      <div>
+        <label for="dhuhr">Dhuhr:</label>
+        <input
+          id="dhuhr"
+          [(ngModel)]="newMosque.timings.dhuhr[selectedLanguage]"
+          name="dhuhr"
+        />
+      </div>
+      <div>
+        <label for="asr">Asr:</label>
+        <input
+          id="asr"
+          [(ngModel)]="newMosque.timings.asr[selectedLanguage]"
+          name="asr"
+        />
+      </div>
+      <div>
+        <label for="maghrib">Maghrib:</label>
+        <input
+          id="maghrib"
+          [(ngModel)]="newMosque.timings.maghrib[selectedLanguage]"
+          name="maghrib"
+        />
+      </div>
+      <div>
+        <label for="isha">Isha:</label>
+        <input
+          id="isha"
+          [(ngModel)]="newMosque.timings.isha[selectedLanguage]"
+          name="isha"
+        />
+      </div>
+      <div>
+        <label for="juma">Juma:</label>
+        <input
+          id="juma"
+          [(ngModel)]="newMosque.timings.juma[selectedLanguage]"
+          name="juma"
+        />
+      </div>
+    </div>
+
+    <button type="submit">{{ isEditing ? 'Update' : 'Add' }} Mosque</button>
+    <button type="button" (click)="resetForm()">Cancel</button>
+  </form>
+</div>
+
+<div class="filter">
+  <label for="sortBy">Sort by:</label>
+  <select id="sortBy" [(ngModel)]="sortBy" (change)="applySorting()">
+    <option value="name">Name</option>
+    <option value="location">Location</option>
+    <option value="fajr">Fajr</option>
+    <option value="dhuhr">Dhuhr</option>
+    <option value="asr">Asr</option>
+    <option value="maghrib">Maghrib</option>
+    <option value="isha">Isha</option>
+    <option value="juma">Juma</option>
+  </select>
+
+  <select [(ngModel)]="sortOrder" (change)="applySorting()">
+    <option value="asc">Ascending</option>
+    <option value="desc">Descending</option>
+  </select>
+
+  <select [(ngModel)]="selectedLanguage" (change)="applySorting()">
+    <option value="en">English</option>
+    <option value="ur">Urdu</option>
+  </select>
+</div>
+
+<div class="mosques-list">
+  <ul>
+    <li *ngFor="let mosque of filteredMosques">
+      <div>
+        <h3>{{ mosque.name[selectedLanguage] }}</h3>
+        <p>{{ mosque.location[selectedLanguage] }}</p>
+        <p>
+          Timings:
+          {{ mosque.timings.fajr[selectedLanguage] }} -
+          {{ mosque.timings.dhuhr[selectedLanguage] }} -
+          {{ mosque.timings.asr[selectedLanguage] }} -
+          {{ mosque.timings.maghrib[selectedLanguage] }} -
+          {{ mosque.timings.isha[selectedLanguage] }} -
+          {{ mosque.timings.juma[selectedLanguage] }}
+        </p>
+        <button *ngIf="isAdmin()" (click)="editMosque(mosque)">Edit</button>
+        <button *ngIf="isAdmin()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
+        <button (click)="viewMosqueDetails(mosque)">View Details</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="selectedMosque">
+  <app-mosque-details 
+    [mosque]="selectedMosque" 
+    [selectedLanguage]="selectedLanguage" 
+    (back)="goBack()">
+  </app-mosque-details>
+</div>

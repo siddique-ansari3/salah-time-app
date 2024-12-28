@@ -1,12 +1,12 @@
 <div *ngIf="mosque">
-    <h2>{{ mosque.name }}</h2>
-    <p>Location: {{ mosque.location }}</p>
-    <ul>
-      <li>Fajr: {{ mosque.timings.fajr }}</li>
-      <li>Dhuhr: {{ mosque.timings.dhuhr }}</li>
-      <li>Asr: {{ mosque.timings.asr }}</li>
-      <li>Maghrib: {{ mosque.timings.maghrib }}</li>
-      <li>Isha: {{ mosque.timings.isha }}</li>
-      <li>Juma: {{ mosque.timings.juma }}</li>
-    </ul>
-  </div>
+  <h2>{{ mosque.name[selectedLanguage] }}</h2>
+  <p>Location: {{ mosque.location[selectedLanguage] }}</p>
+  <ul>
+    <li>Fajr: {{ mosque.timings.fajr[selectedLanguage] }}</li>
+    <li>Dhuhr: {{ mosque.timings.dhuhr[selectedLanguage] }}</li>
+    <li>Asr: {{ mosque.timings.asr[selectedLanguage] }}</li>
+    <li>Maghrib: {{ mosque.timings.maghrib[selectedLanguage] }}</li>
+    <li>Isha: {{ mosque.timings.isha[selectedLanguage] }}</li>
+    <li>Juma: {{ mosque.timings.juma[selectedLanguage] }}</li>
+  </ul>
+</div>

@@ -18,6 +18,7 @@ export class MosquesComponent {
   mosques: Mosque[] = [];
   filteredMosques: Mosque[] = [];
   searchQuery: string = '';
+  selectedLanguage: 'en' | 'ur' = 'en';  // Default to English
   filters = {
     fajr: false,
     dhuhr: false,
@@ -29,22 +30,21 @@ export class MosquesComponent {
   selectedMosque: Mosque | null = null;
 
   newMosque: Mosque = {
-    name: '',
-    location: '',
-    name_urdu: '',
+    name: { en: '', ur: '' },
+    location: { en: '', ur: '' },
     timings: {
-      fajr: '',
-      dhuhr: '',
-      asr: '',
-      maghrib: '',
-      isha: '',
-      juma: '',
+      fajr: { en: '', ur: '' },
+      dhuhr: { en: '', ur: '' },
+      asr: { en: '', ur: '' },
+      maghrib: { en: '', ur: '' },
+      isha: { en: '', ur: '' },
+      juma: { en: '', ur: '' },
     },
   };
   isEditing = false;
 
-  sortBy: string = 'name';  // Sort by name, location, or other criteria
-  sortOrder: 'asc' | 'desc' = 'asc'; // Default to ascending order
+  sortBy: string = 'name';  
+  sortOrder: 'asc' | 'desc' = 'asc'; 
 
   constructor(
     private mosqueService: MosqueService,
@@ -60,12 +60,12 @@ export class MosquesComponent {
     this.mosqueService.getMosques().subscribe((mosques: Mosque[]) => {
       this.mosques = mosques;
       this.filteredMosques = mosques; 
-      this.applySorting(); // Apply sorting after fetching the mosques
+      this.applySorting();
     });
   }
 
   isAdmin(): boolean {
-    return this.authService.isAdmin(); // This will call the isAdmin method from AuthService
+    return this.authService.isAdmin();
   }
 
   applySorting() {
@@ -73,11 +73,10 @@ export class MosquesComponent {
       let comparison = 0;
       
       if (this.sortBy === 'name') {
-        comparison = a.name.localeCompare(b.name);
+        comparison = a.name[this.selectedLanguage].localeCompare(b.name[this.selectedLanguage]);
       } else if (this.sortBy === 'location') {
-        comparison = a.location.localeCompare(b.location);
+        comparison = a.location[this.selectedLanguage].localeCompare(b.location[this.selectedLanguage]);
       } else {
-        // Sorting by timings
         comparison = this.compareTimings(a, b);
       }
       
@@ -86,10 +85,9 @@ export class MosquesComponent {
   }
   
   compareTimings(a: Mosque, b: Mosque): number {
-    const timeA = a.timings[this.sortBy as keyof typeof a.timings];
-    const timeB = b.timings[this.sortBy as keyof typeof b.timings];
+    const timeA = a.timings[this.sortBy as keyof typeof a.timings][this.selectedLanguage];
+    const timeB = b.timings[this.sortBy as keyof typeof b.timings][this.selectedLanguage];
     
-    // If the timings are empty, treat them as the lowest value (earliest time)
     const timeAInMinutes = this.convertTimeToMinutes(timeA);
     const timeBInMinutes = this.convertTimeToMinutes(timeB);
     
@@ -97,45 +95,41 @@ export class MosquesComponent {
   }
   
   convertTimeToMinutes(time: string): number {
-    if (!time) return -1; // If time is empty, consider it as the lowest
+    if (!time) return -1;  
     const [hours, minutes] = time.split(':').map(Number);
     return hours * 60 + minutes;
   }
 
   searchMosques() {
-    if (!this.selectedMosque) { 
-      this.filteredMosques = this.mosques.filter((mosque) =>
-        (mosque.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          mosque.location.toLowerCase().includes(this.searchQuery.toLowerCase())) &&
-        this.filterByTimings(mosque) // Filter by timings
-      );
-      this.applySorting(); // Apply sorting after search
-    }
+    this.filteredMosques = this.mosques.filter((mosque) =>
+      (mosque.name[this.selectedLanguage].toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        mosque.location[this.selectedLanguage].toLowerCase().includes(this.searchQuery.toLowerCase())) &&
+      this.filterByTimings(mosque)
+    );
+    this.applySorting();
   }
   
   filterByTimings(mosque: Mosque): boolean {
     const timings = mosque.timings;
     return (
-      (this.filters.fajr ? timings.fajr !== '' : true) &&
-      (this.filters.dhuhr ? timings.dhuhr !== '' : true) &&
-      (this.filters.asr ? timings.asr !== '' : true) &&
-      (this.filters.maghrib ? timings.maghrib !== '' : true) &&
-      (this.filters.isha ? timings.isha !== '' : true) &&
-      (this.filters.juma ? timings.juma !== '' : true)
+      (this.filters.fajr ? timings.fajr[this.selectedLanguage] !== '' : true) &&
+      (this.filters.dhuhr ? timings.dhuhr[this.selectedLanguage] !== '' : true) &&
+      (this.filters.asr ? timings.asr[this.selectedLanguage] !== '' : true) &&
+      (this.filters.maghrib ? timings.maghrib[this.selectedLanguage] !== '' : true) &&
+      (this.filters.isha ? timings.isha[this.selectedLanguage] !== '' : true) &&
+      (this.filters.juma ? timings.juma[this.selectedLanguage] !== '' : true)
     );
   }
 
   filterTimings() {
-    if (!this.selectedMosque) {
-      this.filteredMosques = this.mosques.filter((mosque) =>
-        (this.filters.fajr ? mosque.timings.fajr !== '' : true) &&
-        (this.filters.dhuhr ? mosque.timings.dhuhr !== '' : true) &&
-        (this.filters.asr ? mosque.timings.asr !== '' : true) &&
-        (this.filters.maghrib ? mosque.timings.maghrib !== '' : true) &&
-        (this.filters.isha ? mosque.timings.isha !== '' : true) &&
-        (this.filters.juma ? mosque.timings.juma !== '' : true)
-      );
-    }
+    this.filteredMosques = this.mosques.filter((mosque) =>
+      (this.filters.fajr ? mosque.timings.fajr[this.selectedLanguage] !== '' : true) &&
+      (this.filters.dhuhr ? mosque.timings.dhuhr[this.selectedLanguage] !== '' : true) &&
+      (this.filters.asr ? mosque.timings.asr[this.selectedLanguage] !== '' : true) &&
+      (this.filters.maghrib ? mosque.timings.maghrib[this.selectedLanguage] !== '' : true) &&
+      (this.filters.isha ? mosque.timings.isha[this.selectedLanguage] !== '' : true) &&
+      (this.filters.juma ? mosque.timings.juma[this.selectedLanguage] !== '' : true)
+    );
   }
 
   editMosque(mosque: Mosque): void {
@@ -147,35 +141,30 @@ export class MosquesComponent {
 
   addOrUpdateMosque(): void {
     if (this.isEditing && this.newMosque._id) {
-      this.mosqueService.updateMosque(this.newMosque._id, this.newMosque).subscribe(
-        (updatedMosque) => {
-          const index = this.mosques.findIndex(m => m._id === updatedMosque._id);
-          if (index > -1) {
-            this.mosques[index] = updatedMosque;
-            this.searchMosques();
-          }
-          this.resetForm();
-        },
-        (error) => console.error('Error updating mosque:', error)
-      );
+      this.mosqueService.updateMosque(this.newMosque._id, this.newMosque).subscribe(() => {
+        this.loadMosques();
+        this.resetForm();
+      });
     } else {
-      this.mosqueService.addMosque(this.newMosque).subscribe(
-        (addedMosque) => {
-          this.mosques.push(addedMosque);
-          this.searchMosques();
-          this.resetForm();
-        },
-        (error) => console.error('Error adding mosque:', error)
-      );
+      this.mosqueService.addMosque(this.newMosque).subscribe(() => {
+        this.loadMosques();
+        this.resetForm();
+      });
     }
   }
 
   resetForm(): void {
     this.newMosque = {
-      name: '',
-      location: '',
-      name_urdu: '',
-      timings: { fajr: '', dhuhr: '', asr: '', maghrib: '', isha: '', juma: '' },
+      name: { en: '', ur: '' },
+      location: { en: '', ur: '' },
+      timings: {
+        fajr: { en: '', ur: '' },
+        dhuhr: { en: '', ur: '' },
+        asr: { en: '', ur: '' },
+        maghrib: { en: '', ur: '' },
+        isha: { en: '', ur: '' },
+        juma: { en: '', ur: '' },
+      },
     };
     this.isEditing = false;
   }
@@ -189,8 +178,15 @@ export class MosquesComponent {
     }
   }
 
+  changeLanguage(lang: 'en' | 'ur') {
+    this.selectedLanguage = lang;
+    this.applySorting();
+    this.searchMosques();
+  }
+
   viewMosqueDetails(mosque: Mosque): void {
     this.selectedMosque = mosque;
+    console.log(mosque);
     this.router.navigate(['/mosque-details', mosque._id]);
   }
 
@@ -199,18 +195,17 @@ export class MosquesComponent {
     this.router.navigate(['/mosques']);
   }
 
-  // Sorting handler
   changeSortOrder(event: Event) {
-    const target = event.target as HTMLSelectElement; // Type-cast the event target
+    const target = event.target as HTMLSelectElement;
     const value = target.value;
-    
+  
     if (this.sortBy === value) {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortBy = value;
       this.sortOrder = 'asc';
     }
-    
+  
     this.applySorting();
   }
 }
