@@ -7,7 +7,7 @@ import { Mosque } from './mosques/mosque.model'; // Import the Mosque interface
   providedIn: 'root',
 })
 export class MosqueService {
-  private apiUrl = 'http://localhost:5002/mosques'; // your backend API
+  private apiUrl = 'https://salah-time-backend.onrender.com/mosques'; // your backend API
 
   constructor(private http: HttpClient) {}
 
