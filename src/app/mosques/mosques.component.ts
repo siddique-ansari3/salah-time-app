@@ -64,10 +64,14 @@ export class MosquesComponent {
     });
   }
 
-  isAdmin(): boolean {
-    return this.authService.isAdmin();
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
+  goToLogin() {
+    this.router.navigate(['/login']);  // Adjust to your actual login route
+  }
+  
   applySorting() {
     this.filteredMosques.sort((a, b) => {
       let comparison = 0;
@@ -133,7 +137,7 @@ export class MosquesComponent {
   }
 
   editMosque(mosque: Mosque): void {
-    if (this.authService.isAdmin()) {
+    if (this.authService.isAuthenticated()) {
       this.newMosque = { ...mosque };
       this.isEditing = true;
     }
@@ -170,7 +174,7 @@ export class MosquesComponent {
   }
 
   deleteMosque(id: string) {
-    if (this.authService.isAdmin()) {
+    if (this.authService.isAuthenticated()) {
       this.mosqueService.deleteMosque(id).subscribe(() => {
         this.mosques = this.mosques.filter((mosque) => mosque._id !== id);
         this.searchMosques();

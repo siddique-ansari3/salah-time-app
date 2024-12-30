@@ -1,8 +1,10 @@
 <div class="search-bar">
   <input [(ngModel)]="searchQuery" (input)="searchMosques()" placeholder="Search mosques" />
 </div>
-
-<div *ngIf="isAdmin()">
+<div class="login-container">
+  <button *ngIf="!isAuthenticated()" (click)="goToLogin()">Login</button>
+</div>
+<div *ngIf="isAuthenticated()">
   <h3>{{ isEditing ? 'Edit Mosque' : 'Add New Mosque' }}</h3>
   <form (ngSubmit)="addOrUpdateMosque()">
     <label for="name">Mosque Name:</label>
@@ -117,8 +119,8 @@
           {{ mosque.timings.isha[selectedLanguage] }} -
           {{ mosque.timings.juma[selectedLanguage] }}
         </p>
-        <button *ngIf="isAdmin()" (click)="editMosque(mosque)">Edit</button>
-        <button *ngIf="isAdmin()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
+        <button *ngIf="isAuthenticated()" (click)="editMosque(mosque)">Edit</button>
+        <button *ngIf="isAuthenticated()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
         <button (click)="viewMosqueDetails(mosque)">View Details</button>
       </div>
     </li>
