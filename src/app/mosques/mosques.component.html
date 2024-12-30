@@ -1,81 +1,9 @@
-<div class="search-bar">
-  <input [(ngModel)]="searchQuery" (input)="searchMosques()" placeholder="Search mosques" />
+<div class="login-container">
+  <button *ngIf="!isAuthenticated()" (click)="goToLogin()">Login</button>
 </div>
 
-<div *ngIf="isAdmin()">
-  <h3>{{ isEditing ? 'Edit Mosque' : 'Add New Mosque' }}</h3>
-  <form (ngSubmit)="addOrUpdateMosque()">
-    <label for="name">Mosque Name:</label>
-    <input
-      id="name"
-      [(ngModel)]="newMosque.name[selectedLanguage]"
-      name="name"
-      required
-    />
-
-    <label for="location">Location:</label>
-    <input
-      id="location"
-      [(ngModel)]="newMosque.location[selectedLanguage]"
-      name="location"
-      required
-    />
-
-    <div>
-      <label>Prayer Timings:</label>
-      <div>
-        <label for="fajr">Fajr:</label>
-        <input
-          id="fajr"
-          [(ngModel)]="newMosque.timings.fajr[selectedLanguage]"
-          name="fajr"
-        />
-      </div>
-      <div>
-        <label for="dhuhr">Dhuhr:</label>
-        <input
-          id="dhuhr"
-          [(ngModel)]="newMosque.timings.dhuhr[selectedLanguage]"
-          name="dhuhr"
-        />
-      </div>
-      <div>
-        <label for="asr">Asr:</label>
-        <input
-          id="asr"
-          [(ngModel)]="newMosque.timings.asr[selectedLanguage]"
-          name="asr"
-        />
-      </div>
-      <div>
-        <label for="maghrib">Maghrib:</label>
-        <input
-          id="maghrib"
-          [(ngModel)]="newMosque.timings.maghrib[selectedLanguage]"
-          name="maghrib"
-        />
-      </div>
-      <div>
-        <label for="isha">Isha:</label>
-        <input
-          id="isha"
-          [(ngModel)]="newMosque.timings.isha[selectedLanguage]"
-          name="isha"
-        />
-      </div>
-      <div>
-        <label for="juma">Juma:</label>
-        <input
-          id="juma"
-          [(ngModel)]="newMosque.timings.juma[selectedLanguage]"
-          name="juma"
-        />
-      </div>
-    </div>
-
-    <button type="submit">{{ isEditing ? 'Update' : 'Add' }} Mosque</button>
-    <button type="button" (click)="resetForm()">Cancel</button>
-  </form>
+<div class="search-bar">
+  <input [(ngModel)]="searchQuery" (input)="searchMosques()" placeholder="Search mosques" />
 </div>
 
 <div class="filter">
@@ -102,6 +30,150 @@
   </select>
 </div>
 
+<!-- Add New Mosque Button -->
+<div class="add-mosque-container">
+  <button (click)="isAuthenticated() ? toggleAddOrUpdateMosqueForm() : goToLogin()">Add New Mosque</button>
+</div>
+
+<div *ngIf="isAddOrUpdateFormVisible" class="form-container">
+  <h3>{{ isEditing ? 'Edit Mosque' : 'Add New Mosque' }}</h3>
+  <form (ngSubmit)="addOrUpdateMosque()">
+    <label for="name_en">Mosque Name (English):</label>
+    <input
+      id="name_en"
+      [(ngModel)]="newMosque.name.en"
+      name="name_en"
+      required
+    />
+    
+    <label for="name_ur">Mosque Name (Urdu):</label>
+    <input
+      id="name_ur"
+      [(ngModel)]="newMosque.name.ur"
+      name="name_ur"
+      required
+    />
+
+    <label for="location_en">Location (English):</label>
+    <input
+      id="location_en"
+      [(ngModel)]="newMosque.location.en"
+      name="location_en"
+      required
+    />
+    
+    <label for="location_ur">Location (Urdu):</label>
+    <input
+      id="location_ur"
+      [(ngModel)]="newMosque.location.ur"
+      name="location_ur"
+      required
+    />
+
+    <div>
+      <label>Prayer Timings:</label>
+      <div>
+        <label for="fajr_en">Fajr (English):</label>
+        <input
+          id="fajr_en"
+          [(ngModel)]="newMosque.timings.fajr.en"
+          name="fajr_en"
+        />
+        
+        <label for="fajr_ur">Fajr (Urdu):</label>
+        <input
+          id="fajr_ur"
+          [(ngModel)]="newMosque.timings.fajr.ur"
+          name="fajr_ur"
+        />
+      </div>
+
+      <div>
+        <label for="dhuhr_en">Dhuhr (English):</label>
+        <input
+          id="dhuhr_en"
+          [(ngModel)]="newMosque.timings.dhuhr.en"
+          name="dhuhr_en"
+        />
+        
+        <label for="dhuhr_ur">Dhuhr (Urdu):</label>
+        <input
+          id="dhuhr_ur"
+          [(ngModel)]="newMosque.timings.dhuhr.ur"
+          name="dhuhr_ur"
+        />
+      </div>
+
+      <div>
+        <label for="asr_en">Asr (English):</label>
+        <input
+          id="asr_en"
+          [(ngModel)]="newMosque.timings.asr.en"
+          name="asr_en"
+        />
+        
+        <label for="asr_ur">Asr (Urdu):</label>
+        <input
+          id="asr_ur"
+          [(ngModel)]="newMosque.timings.asr.ur"
+          name="asr_ur"
+        />
+      </div>
+
+      <div>
+        <label for="maghrib_en">Maghrib (English):</label>
+        <input
+          id="maghrib_en"
+          [(ngModel)]="newMosque.timings.maghrib.en"
+          name="maghrib_en"
+        />
+        
+        <label for="maghrib_ur">Maghrib (Urdu):</label>
+        <input
+          id="maghrib_ur"
+          [(ngModel)]="newMosque.timings.maghrib.ur"
+          name="maghrib_ur"
+        />
+      </div>
+
+      <div>
+        <label for="isha_en">Isha (English):</label>
+        <input
+          id="isha_en"
+          [(ngModel)]="newMosque.timings.isha.en"
+          name="isha_en"
+        />
+        
+        <label for="isha_ur">Isha (Urdu):</label>
+        <input
+          id="isha_ur"
+          [(ngModel)]="newMosque.timings.isha.ur"
+          name="isha_ur"
+        />
+      </div>
+
+      <div>
+        <label for="juma_en">Juma (English):</label>
+        <input
+          id="juma_en"
+          [(ngModel)]="newMosque.timings.juma.en"
+          name="juma_en"
+        />
+        
+        <label for="juma_ur">Juma (Urdu):</label>
+        <input
+          id="juma_ur"
+          [(ngModel)]="newMosque.timings.juma.ur"
+          name="juma_ur"
+        />
+      </div>
+    </div>
+
+    <button type="submit">{{ isEditing ? 'Update' : 'Add' }} Mosque</button>
+    <button type="button" (click)="resetForm()">Cancel</button>
+  </form>
+</div>
+
 <div class="mosques-list">
   <ul>
     <li *ngFor="let mosque of filteredMosques">
@@ -117,8 +189,8 @@
           {{ mosque.timings.isha[selectedLanguage] }} -
           {{ mosque.timings.juma[selectedLanguage] }}
         </p>
-        <button *ngIf="isAdmin()" (click)="editMosque(mosque)">Edit</button>
-        <button *ngIf="isAdmin()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
+        <button *ngIf="isAuthenticated()" (click)="editMosque(mosque)">Edit</button>
+        <button *ngIf="isAuthenticated()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
         <button (click)="viewMosqueDetails(mosque)">View Details</button>
       </div>
     </li>

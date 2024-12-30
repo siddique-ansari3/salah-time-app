@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mosque } from './mosques/mosque.model'; // Import the Mosque interface
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MosqueService {
-  private apiUrl = 'https://salah-time-backend.onrender.com/mosques'; // your backend API
-
+  private apiUrl = environment.apiUrl + '/mosques';
+  
   constructor(private http: HttpClient) {}
 
   getMosques(): Observable<any> {
