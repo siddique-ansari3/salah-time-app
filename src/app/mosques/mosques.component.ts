@@ -42,6 +42,7 @@ export class MosquesComponent {
     },
   };
   isEditing = false;
+  isAddOrUpdateFormVisible = false;
 
   sortBy: string = 'name';  
   sortOrder: 'asc' | 'desc' = 'asc'; 
@@ -71,7 +72,7 @@ export class MosquesComponent {
   goToLogin() {
     this.router.navigate(['/login']);  // Adjust to your actual login route
   }
-  
+
   applySorting() {
     this.filteredMosques.sort((a, b) => {
       let comparison = 0;
@@ -140,6 +141,7 @@ export class MosquesComponent {
     if (this.authService.isAuthenticated()) {
       this.newMosque = { ...mosque };
       this.isEditing = true;
+      this.isAddOrUpdateFormVisible = true;
     }
   }
 
@@ -154,6 +156,16 @@ export class MosquesComponent {
         this.loadMosques();
         this.resetForm();
       });
+    }
+    this.toggleAddOrUpdateMosqueForm();
+  }
+
+  toggleAddOrUpdateMosqueForm(): void {
+    this.isAddOrUpdateFormVisible = !this.isAddOrUpdateFormVisible;
+    if (!this.isAddOrUpdateFormVisible) {
+      // Reset form when closing
+      this.resetForm();
+      this.isEditing = false;
     }
   }
 
