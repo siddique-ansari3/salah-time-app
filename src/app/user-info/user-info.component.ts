@@ -5,14 +5,7 @@ import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-user-info',
-  template: `
-    <div *ngIf="userName; else loginButton">
-      <p>Welcome, {{ userName }}!</p>
-    </div>
-    <ng-template #loginButton>
-      <button (click)="goToLogin()">Login</button>
-    </ng-template>
-  `,
+  templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.css'],
   imports: [CommonModule]
 })
