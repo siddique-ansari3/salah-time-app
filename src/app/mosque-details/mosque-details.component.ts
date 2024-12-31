@@ -1,19 +1,48 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Mosque } from '../mosques/mosque.model';
+import { ActivatedRoute } from '@angular/router';
+import { MosqueService } from '../mosque.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
   selector: 'app-mosque-details',
   templateUrl: './mosque-details.component.html',
+  styleUrls: ['./mosque-details.component.css'],
+  imports: [CommonModule]
 })
-export class MosqueDetailsComponent {
-  @Input() mosque!: Mosque;
-  @Input() selectedLanguage: 'en' | 'ur' = 'en';  // Accept selectedLanguage as an input
+export class MosqueDetailsComponent implements OnInit {
+  mosque: any;
+  selectedLanguage: string = 'en';  // Default to English
 
-  // Optional: A method to toggle between languages
-  toggleLanguage() {
-    this.selectedLanguage = this.selectedLanguage === 'en' ? 'ur' : 'en';
+  constructor(
+    private route: ActivatedRoute,
+    private mosqueService: MosqueService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const mosqueId = params.get('id');
+      if (mosqueId) {
+        this.fetchMosqueDetails(mosqueId);
+      }
+    });
+
+    // Get language from localStorage or set default
+    this.selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  }
+
+  fetchMosqueDetails(mosqueId: string): void {
+    this.mosqueService.getMosqueById(mosqueId).subscribe({
+      next: (data) => {
+        this.mosque = data;
+      },
+      error: (err) => {
+        console.error('Error fetching mosque details', err);
+      }
+    });
+  }
+
+  goBack(): void {
+    window.history.back();
   }
 }

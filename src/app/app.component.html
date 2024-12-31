@@ -1,6 +1,10 @@
-<nav>
-  <a routerLink="/mosques" routerLinkActive="active">Mosques</a>
-</nav>
-
-<app-mosques></app-mosques>
-<router-outlet></router-outlet>
+<div>
+  <app-user-info></app-user-info> <!-- Display user info or login button -->
+  <!-- <div class="language-selector">
+    <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange($event)">
+      <option value="en">English</option>
+      <option value="ur">Urdu</option>
+    </select>
+  </div> -->
+  <router-outlet></router-outlet>
+</div>
