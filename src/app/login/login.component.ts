@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { NgIf, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private userService: UserService ) {}
 
   onSubmit() {
     console.log(this.email);
@@ -24,6 +25,7 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           localStorage.setItem('token', res.token);
+          this.userService.getUserDetails();
           this.router.navigate(['/']);
         },
         error: (err) => {

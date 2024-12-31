@@ -6,11 +6,12 @@ import { Mosque } from './mosque.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MosqueDetailsComponent } from '../mosque-details/mosque-details.component';
+import { LanguageService } from '../language.service';
 
 @Component({
   selector: 'app-mosques',
   standalone: true,
-  imports: [CommonModule, FormsModule, MosqueDetailsComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './mosques.component.html',
   styleUrl: './mosques.component.css',
 })
@@ -50,7 +51,8 @@ export class MosquesComponent {
   constructor(
     private mosqueService: MosqueService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit() {
@@ -200,10 +202,16 @@ export class MosquesComponent {
     this.searchMosques();
   }
 
-  viewMosqueDetails(mosque: Mosque): void {
+  viewMosqueDetails1(mosque: Mosque): void {
     this.selectedMosque = mosque;
     console.log(mosque);
     this.router.navigate(['/mosque-details', mosque._id]);
+  }
+
+  viewMosqueDetails(mosque: any): void {
+    if (mosque && mosque._id) {
+      this.router.navigate(['/mosque', mosque._id]);  // Redirect to mosque details page with ID
+    }
   }
 
   goBack(): void {
