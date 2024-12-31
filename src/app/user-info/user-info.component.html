@@ -1,1 +1,6 @@
-<p>user-info works!</p>
+<div *ngIf="userName; else loginButton">
+    <p>Welcome, {{ userName }}!</p>
+  </div>
+  <ng-template #loginButton>
+    <button (click)="goToLogin()">Login</button>
+  </ng-template>
