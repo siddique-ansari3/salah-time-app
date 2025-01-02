@@ -1,10 +1,15 @@
-<div>
-  <app-user-info></app-user-info> <!-- Display user info or login button -->
-  <!-- <div class="language-selector">
-    <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange($event)">
-      <option value="en">English</option>
-      <option value="ur">Urdu</option>
-    </select>
-  </div> -->
+<div class="header">
+  <div class="user-section">
+    <app-user-info></app-user-info>
+    <div class="language-selector">
+      <select [(ngModel)]="selectedLanguage" (change)="onLanguageChange($event)">
+        <option value="en">English</option>
+        <option value="ur">Urdu</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="content">
   <router-outlet></router-outlet>
 </div>

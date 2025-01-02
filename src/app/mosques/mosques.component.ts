@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MosqueDetailsComponent } from '../mosque-details/mosque-details.component';
 import { LanguageService } from '../language.service';
+import { Language } from '../models/language.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-mosques',
@@ -16,10 +18,17 @@ import { LanguageService } from '../language.service';
   styleUrl: './mosques.component.css',
 })
 export class MosquesComponent {
+  constructor(
+    private mosqueService: MosqueService,
+    private router: Router,
+    private authService: AuthService,
+    private languageService: LanguageService
+  ) {}
+
   mosques: Mosque[] = [];
   filteredMosques: Mosque[] = [];
   searchQuery: string = '';
-  selectedLanguage: 'en' | 'ur' = 'en';  // Default to English
+  selectedLanguage: Language = 'en';
   filters = {
     fajr: false,
     dhuhr: false,
@@ -47,18 +56,24 @@ export class MosquesComponent {
 
   sortBy: string = 'name';  
   sortOrder: 'asc' | 'desc' = 'asc'; 
-
-  constructor(
-    private mosqueService: MosqueService,
-    private router: Router,
-    private authService: AuthService,
-    private languageService: LanguageService
-  ) {}
+  languageSubscription: Subscription | null = null;  // Initialize as null
 
   ngOnInit() {
     this.loadMosques();
+    this.selectedLanguage = this.languageService.getLanguage();
+    this.languageSubscription = this.languageService.language$.subscribe((lang) => {
+      this.selectedLanguage = lang;
+      // Optionally, you can trigger actions based on language change
+    });
   }
 
+  ngOnDestroy(): void {
+    // Unsubscribe when the component is destroyed to prevent memory leaks
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+  }
+  
   loadMosques() {
     this.mosqueService.getMosques().subscribe((mosques: Mosque[]) => {
       this.mosques = mosques;

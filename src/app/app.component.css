@@ -1,0 +1,81 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .user-section {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+  
+    .language-selector select {
+      width: 100%;
+      font-size: 16px;
+      padding: 10px;
+    }
+  }
+  
+  /* Language selector styling */
+  .language-selector select {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  /* Button and text styling */
+  button {
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  /* Content container */
+  .content {
+    padding: 20px;
+  }
+  
+  /* Handle full-width containers */
+  .router-outlet {
+    width: 100%;
+  }

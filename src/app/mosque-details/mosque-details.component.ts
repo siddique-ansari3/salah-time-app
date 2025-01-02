@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MosqueService } from '../mosque.service';
+import { Language } from '../models/language.model';
+import { Subscription } from 'rxjs';
+import { LanguageService } from '../language.service';
 
 @Component({
   standalone: true,
@@ -12,11 +15,13 @@ import { MosqueService } from '../mosque.service';
 })
 export class MosqueDetailsComponent implements OnInit {
   mosque: any;
-  selectedLanguage: string = 'en';  // Default to English
-
+  selectedLanguage: Language = 'en';
+  languageSubscription: Subscription | null = null;  // Initialize as null
+    
   constructor(
     private route: ActivatedRoute,
-    private mosqueService: MosqueService
+    private mosqueService: MosqueService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -27,8 +32,11 @@ export class MosqueDetailsComponent implements OnInit {
       }
     });
 
-    // Get language from localStorage or set default
-    this.selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+    this.selectedLanguage = this.languageService.getLanguage();
+    this.languageSubscription = this.languageService.language$.subscribe((lang) => {
+      this.selectedLanguage = lang;
+      // Optionally, you can trigger actions based on language change
+    });
   }
 
   fetchMosqueDetails(mosqueId: string): void {
