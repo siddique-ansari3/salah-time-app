@@ -1,7 +1,3 @@
-<div class="login-container">
-  <button *ngIf="!isAuthenticated()" (click)="goToLogin()">Login</button>
-</div>
-
 <div class="search-bar">
   <input [(ngModel)]="searchQuery" (input)="searchMosques()" placeholder="Search mosques" />
 </div>
@@ -195,4 +191,20 @@
       </div>
     </li>
   </ul>
+</div>
+
+<!--<div *ngFor="let time of prayerTimes" class="mosque-timing">
+  <h3>{{ time.mosque.name[selectedLanguage] }}</h3>
+  <p>Current Prayer: <strong>{{ time.current }}</strong></p>
+  <p>Next Prayer: <strong>{{ time.next }}</strong></p>
+</div> -->
+
+<div class="salah-times">
+  <div class="current-prayer">
+    <p>Current Prayer: {{ currentPrayer }}</p>
+  </div>
+
+  <div class="next-prayer">
+    <p>Next Prayer: {{ nextPrayer }}</p>
+  </div>
 </div>

@@ -38,6 +38,7 @@ export class AuthService {
         catchError((error) => {
           if (error.status === 401) {
             console.error('Unauthorized');
+            localStorage.removeItem('token');
           }
           return throwError(() => new Error(error.message || 'Failed to fetch user details'));
         })

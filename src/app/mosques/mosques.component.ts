@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { MosqueService } from '../mosque.service';
 import { Mosque } from './mosque.model';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { MosqueDetailsComponent } from '../mosque-details/mosque-details.compone
 import { LanguageService } from '../language.service';
 import { Language } from '../models/language.model';
 import { Subscription } from 'rxjs';
+import { PRAYER_TIMES, PrayerTime } from '../constant/prayer-times';
 
 @Component({
   selector: 'app-mosques',
@@ -29,6 +30,8 @@ export class MosquesComponent {
   filteredMosques: Mosque[] = [];
   searchQuery: string = '';
   selectedLanguage: Language = 'en';
+  languageSubscription: Subscription | null = null;  // Initialize as null
+
   filters = {
     fajr: false,
     dhuhr: false,
@@ -56,7 +59,6 @@ export class MosquesComponent {
 
   sortBy: string = 'name';  
   sortOrder: 'asc' | 'desc' = 'asc'; 
-  languageSubscription: Subscription | null = null;  // Initialize as null
 
   ngOnInit() {
     this.loadMosques();
@@ -73,12 +75,13 @@ export class MosquesComponent {
       this.languageSubscription.unsubscribe();
     }
   }
-  
+
   loadMosques() {
     this.mosqueService.getMosques().subscribe((mosques: Mosque[]) => {
       this.mosques = mosques;
       this.filteredMosques = mosques; 
       this.applySorting();
+      this.calculateCurrentAndNextPrayer();
     });
   }
 
@@ -247,4 +250,34 @@ export class MosquesComponent {
   
     this.applySorting();
   }
+
+  currentPrayer: string | null = null;
+  nextPrayer: string = '';
+
+  // Use the imported PRAYER_TIMES constant
+  prayerTimes: PrayerTime[] = PRAYER_TIMES;
+
+  // Function to calculate current and next prayer based on time ranges
+calculateCurrentAndNextPrayer(): void {
+  const now = new Date();
+  const currentHour = now.getHours();
+  const currentDay = now.getDay(); // Get the current day (0 = Sunday, 1 = Monday, ..., 5 = Friday)
+
+  // Determine the current prayer
+  const currentPrayerObj = this.prayerTimes.find(prayer => currentHour >= prayer.start && currentHour < prayer.end);
+  this.currentPrayer = currentPrayerObj ? currentPrayerObj.name : 'Isha';
+
+  // Replace Dhuhr with Juma on Friday
+  if (currentDay === 5) {
+    const dhuhrPrayer = this.prayerTimes.find(prayer => prayer.name === 'Dhuhr');
+    if (dhuhrPrayer) {
+      dhuhrPrayer.name = 'Juma';  // Change Dhuhr to Juma
+    }
+  }
+
+  // Determine the next prayer
+  const nextPrayerObj = this.prayerTimes.find(prayer => currentHour < prayer.start);
+  this.nextPrayer = nextPrayerObj ? nextPrayerObj.name : 'Fajr';  // Default to Fajr if no next prayer found
+}
+
 }
