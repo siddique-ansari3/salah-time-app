@@ -9,7 +9,7 @@ import { MosqueDetailsComponent } from '../mosque-details/mosque-details.compone
 import { LanguageService } from '../language.service';
 import { Language } from '../models/language.model';
 import { Subscription } from 'rxjs';
-import { PRAYER_TIMES, PrayerTime } from '../constant/prayer-times';
+import { PRAYER_TIMES, PrayerTime, PrayerType } from '../constant/prayer-times';
 
 @Component({
   selector: 'app-mosques',
@@ -31,6 +31,16 @@ export class MosquesComponent {
   searchQuery: string = '';
   selectedLanguage: Language = 'en';
   languageSubscription: Subscription | null = null;  // Initialize as null
+  uniqueLocations: string[] = [];
+  selectedPrayer: PrayerType = 'fajr';  // Default to current prayer
+  selectedPrayerKey = this.selectedPrayer.toLowerCase() as PrayerType;
+  selectedLocations: { [key: string]: boolean } = {};
+  showFilters: boolean = false;
+  //currentPrayer: string | null = null;
+  nextPrayer: string = '';
+
+  // Use the imported PRAYER_TIMES constant
+  prayerTimes: PrayerTime[] = PRAYER_TIMES;
 
   filters = {
     fajr: false,
@@ -66,7 +76,9 @@ export class MosquesComponent {
     this.languageSubscription = this.languageService.language$.subscribe((lang) => {
       this.selectedLanguage = lang;
       // Optionally, you can trigger actions based on language change
+      this.loadMosques();
     });
+
   }
 
   ngOnDestroy(): void {
@@ -80,10 +92,59 @@ export class MosquesComponent {
     this.mosqueService.getMosques().subscribe((mosques: Mosque[]) => {
       this.mosques = mosques;
       this.filteredMosques = mosques; 
-      this.applySorting();
+     // this.applySorting();
       this.calculateCurrentAndNextPrayer();
+
+      this.uniqueLocations = Array.from(
+        new Set(
+          this.mosques
+            .map(mosque => mosque.location[this.selectedLanguage] || mosque.location['en']) // Fallback to 'en' if undefined
+        )
+      );
+  
+      this.uniqueLocations.forEach(location => {
+        this.selectedLocations[location] = true;
+      });
     });
+
   }
+
+
+  castToPrayerType(prayer: string): PrayerType {
+    return prayer as PrayerType;
+  }
+
+// Toggle filter visibility
+toggleFilterVisibility(): void {
+  this.showFilters = !this.showFilters;
+}
+
+// Track selected locations
+onLocationChange(location: string, event: any): void {
+  this.selectedLocations[location] = event.target.checked;
+}
+
+onPrayerChange(prayer: PrayerType): void {
+  this.selectedPrayer = prayer;
+}
+
+// Apply filters
+applyFilters(): void {
+  this.filteredMosques = this.mosques.filter(mosque => {
+    const matchesLocation = Object.keys(this.selectedLocations).length === 0 ||
+      this.selectedLocations[mosque.location[this.selectedLanguage]];
+    
+      const selectedPrayerKey = this.selectedPrayer.toLowerCase() as PrayerType;
+
+    const matchesPrayer = 
+    mosque.timings[selectedPrayerKey]?.[this.selectedLanguage];
+
+    return matchesLocation && matchesPrayer;
+  });
+
+  // Hide filters after applying
+  this.showFilters = false;
+}
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
@@ -91,6 +152,11 @@ export class MosquesComponent {
 
   goToLogin() {
     this.router.navigate(['/login']);  // Adjust to your actual login route
+  }
+
+  // Filter based on the selected prayer time
+  applyPrayerFilter(): void {
+    this.applyFilters();
   }
 
   applySorting() {
@@ -251,11 +317,6 @@ export class MosquesComponent {
     this.applySorting();
   }
 
-  currentPrayer: string | null = null;
-  nextPrayer: string = '';
-
-  // Use the imported PRAYER_TIMES constant
-  prayerTimes: PrayerTime[] = PRAYER_TIMES;
 
   // Function to calculate current and next prayer based on time ranges
 calculateCurrentAndNextPrayer(): void {
@@ -265,7 +326,7 @@ calculateCurrentAndNextPrayer(): void {
 
   // Determine the current prayer
   const currentPrayerObj = this.prayerTimes.find(prayer => currentHour >= prayer.start && currentHour < prayer.end);
-  this.currentPrayer = currentPrayerObj ? currentPrayerObj.name : 'Isha';
+  this.selectedPrayer = currentPrayerObj ? currentPrayerObj.name.toLowerCase() as PrayerType : 'isha';
 
   // Replace Dhuhr with Juma on Friday
   if (currentDay === 5) {
@@ -275,6 +336,7 @@ calculateCurrentAndNextPrayer(): void {
     }
   }
 
+  console.log(this.selectedPrayer);
   // Determine the next prayer
   const nextPrayerObj = this.prayerTimes.find(prayer => currentHour < prayer.start);
   this.nextPrayer = nextPrayerObj ? nextPrayerObj.name : 'Fajr';  // Default to Fajr if no next prayer found

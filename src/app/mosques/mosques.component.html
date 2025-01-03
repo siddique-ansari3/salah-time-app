@@ -26,6 +26,47 @@
   </select>-->
 </div>
 
+<!-- Filter Button -->
+<button (click)="toggleFilterVisibility()">
+  {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+</button>
+
+<!-- Collapsible Filter Section -->
+<div *ngIf="showFilters" class="filter-container">
+  <h4>Filter Mosques</h4>
+
+  <!-- Location Filter -->
+  <div *ngFor="let location of uniqueLocations">
+    <label>
+      <input 
+        type="checkbox" 
+        [value]="location" 
+        (change)="onLocationChange(location, $event)" 
+        [checked]="selectedLocations[location]"
+      />
+      {{ location }}
+    </label>
+  </div>
+
+  <!-- Prayer Filter -->
+  <h5>Filter by Prayer Time</h5>
+  <div *ngFor="let prayer of prayerTimes">
+    <label>
+      <input 
+        type="radio" 
+        [value]="prayer.name.toLowerCase()" 
+        name="prayerFilter" 
+        (change)="onPrayerChange(castToPrayerType(prayer.name.toLowerCase()))" 
+        [checked]="selectedPrayer === prayer.name.toLowerCase()"
+      />
+
+      {{ prayer.name }}
+    </label>
+  </div>
+
+  <!-- Apply Filter Button -->
+  <button (click)="applyFilters()">Apply Filters</button>
+</div>
 <!-- Add New Mosque Button -->
 <div class="add-mosque-container">
   <button (click)="isAuthenticated() ? toggleAddOrUpdateMosqueForm() : goToLogin()">Add New Mosque</button>
@@ -170,7 +211,24 @@
   </form>
 </div>
 
+
+<!-- Mosque List -->
 <div class="mosques-list">
+  <ul>
+    <li *ngFor="let mosque of filteredMosques">
+      <div>
+        <h3>{{ mosque.name[selectedLanguage] }}</h3>
+        <p>{{ mosque.location[selectedLanguage] }}</p>
+        <p>
+          Current Prayer Time: {{ mosque.timings[selectedPrayer][selectedLanguage] }}
+        </p>
+        <button (click)="viewMosqueDetails(mosque)">View Details</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!--<div class="mosques-list">
   <ul>
     <li *ngFor="let mosque of filteredMosques">
       <div>
@@ -191,7 +249,7 @@
       </div>
     </li>
   </ul>
-</div>
+</div>-->
 
 <!--<div *ngFor="let time of prayerTimes" class="mosque-timing">
   <h3>{{ time.mosque.name[selectedLanguage] }}</h3>
@@ -199,7 +257,7 @@
   <p>Next Prayer: <strong>{{ time.next }}</strong></p>
 </div> -->
 
-<div class="salah-times">
+<!--<div class="salah-times">
   <div class="current-prayer">
     <p>Current Prayer: {{ currentPrayer }}</p>
   </div>
@@ -207,4 +265,4 @@
   <div class="next-prayer">
     <p>Next Prayer: {{ nextPrayer }}</p>
   </div>
-</div>
+</div>-->

@@ -13,3 +13,5 @@ export interface PrayerTime {
     { start: 17, end: 19, name: 'Maghrib' },  // 5:00 PM to 7:00 PM
     { start: 19, end: 24, name: 'Isha' }      // 7:00 PM to 12:00 AM
   ];
+
+  export type PrayerType = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha' | 'juma';
