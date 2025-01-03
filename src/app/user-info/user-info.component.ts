@@ -16,7 +16,10 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.user$.subscribe((user) => {
-      this.userName = user.name;
+      if(user != null){
+        this.userName = user.name;
+      }
+      
     });
   }
 
@@ -24,4 +27,14 @@ export class UserInfoComponent implements OnInit {
     // Navigate to login page
     window.location.href = '/login';  // Or use Angular router if available
   }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+  
+  logout(): void {
+    localStorage.removeItem('token');
+    window.location.reload();  // Refresh to reset state
+  }
+  
 }

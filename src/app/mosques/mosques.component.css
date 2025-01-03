@@ -232,3 +232,25 @@ form button:hover {
 .add-mosque-container button:active {
   transform: translateY(1px);  /* Button press effect */
 }
+
+.filter-container {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
