@@ -224,10 +224,11 @@
         <p>
           {{ getPrayerName(selectedPrayer) }} : {{ mosque.timings[selectedPrayer][selectedLanguage] }}
         </p>
-        <button *ngIf="isAuthenticated()" (click)="editMosque(mosque)">Edit</button>
-        <button *ngIf="isAuthenticated()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
+        
         <!--<button (click)="viewMosqueDetails(mosque)">View Details</button>-->
       </div>
+      <button *ngIf="isAuthenticated()" (click)="editMosque(mosque)">Edit</button>
+      <button *ngIf="isAuthenticated()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
     </li>
   </ul>
 </div>
