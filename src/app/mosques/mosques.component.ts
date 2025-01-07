@@ -9,7 +9,7 @@ import { MosqueDetailsComponent } from '../mosque-details/mosque-details.compone
 import { LanguageService } from '../language.service';
 import { Language } from '../models/language.model';
 import { Subscription } from 'rxjs';
-import { PRAYER_TIMES, PrayerTime, PrayerType } from '../constant/prayer-times';
+import { PRAYER_TIMES, PrayerTime, PrayerType, prayerMap } from '../constant/prayer-times';
 
 @Component({
   selector: 'app-mosques',
@@ -340,6 +340,10 @@ calculateCurrentAndNextPrayer(): void {
   // Determine the next prayer
   const nextPrayerObj = this.prayerTimes.find(prayer => currentHour < prayer.start);
   this.nextPrayer = nextPrayerObj ? nextPrayerObj.name : 'Fajr';  // Default to Fajr if no next prayer found
+}
+
+getPrayerName(key: string): string {
+  return prayerMap[key][this.selectedLanguage] || prayerMap[key]['en'];
 }
 
 }
