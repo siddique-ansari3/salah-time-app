@@ -15,3 +15,12 @@ export interface PrayerTime {
   ];
 
   export type PrayerType = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha' | 'juma';
+
+  export const prayerMap: { [key: string]: { [lang: string]: string } } = {
+    fajr: { en: 'Fajr', ar: 'الفجر', ur: 'فجر' },
+    dhuhr: { en: 'Dhuhr', ar: 'الظهر', ur: 'ظہر' },
+    asr: { en: 'Asr', ar: 'العصر', ur: 'عصر' },
+    maghrib: { en: 'Maghrib', ar: 'المغرب', ur: 'مغرب' },
+    isha: { en: 'Isha', ar: 'العشاء', ur: 'عشاء' },
+    juma: { en: 'Juma', ar: 'الجمعة', ur: 'جمعہ' }
+  };

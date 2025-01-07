@@ -1,76 +1,78 @@
 <div class="search-bar">
   <input [(ngModel)]="searchQuery" (input)="searchMosques()" placeholder="Search mosques" />
+  <i class="fas fa-filter filter-icon" (click)="toggleFilterVisibility()"></i>
 </div>
 
-<div class="filter">
-  <label for="sortBy">Sort by:</label>
-  <select id="sortBy" [(ngModel)]="sortBy" (change)="applySorting()">
-    <option value="name">Name</option>
-    <option value="location">Location</option>
-    <option value="fajr">Fajr</option>
-    <option value="dhuhr">Dhuhr</option>
-    <option value="asr">Asr</option>
-    <option value="maghrib">Maghrib</option>
-    <option value="isha">Isha</option>
-    <option value="juma">Juma</option>
-  </select>
-
-  <select [(ngModel)]="sortOrder" (change)="applySorting()">
-    <option value="asc">Ascending</option>
-    <option value="desc">Descending</option>
-  </select>
-
-  <!--<select [(ngModel)]="selectedLanguage" (change)="applySorting()">
-    <option value="en">English</option>
-    <option value="ur">Urdu</option>
-  </select>-->
-</div>
-
-<!-- Filter Button -->
-<button (click)="toggleFilterVisibility()">
-  {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
-</button>
-
-<!-- Collapsible Filter Section -->
-<div *ngIf="showFilters" class="filter-container">
-  <h4>Filter Mosques</h4>
-
-  <!-- Location Filter -->
-  <div *ngFor="let location of uniqueLocations">
-    <label>
-      <input 
-        type="checkbox" 
-        [value]="location" 
-        (change)="onLocationChange(location, $event)" 
-        [checked]="selectedLocations[location]"
-      />
-      {{ location }}
-    </label>
-  </div>
-
-  <!-- Prayer Filter -->
-  <h5>Filter by Prayer Time</h5>
-  <div *ngFor="let prayer of prayerTimes">
-    <label>
-      <input 
-        type="radio" 
-        [value]="prayer.name.toLowerCase()" 
-        name="prayerFilter" 
-        (change)="onPrayerChange(castToPrayerType(prayer.name.toLowerCase()))" 
-        [checked]="selectedPrayer === prayer.name.toLowerCase()"
-      />
-
-      {{ prayer.name }}
-    </label>
-  </div>
-
-  <!-- Apply Filter Button -->
-  <button (click)="applyFilters()">Apply Filters</button>
-</div>
-<!-- Add New Mosque Button -->
-<div class="add-mosque-container">
+<div class="add-new-mosque">
+  <!-- Add New Mosque Button -->
   <button (click)="isAuthenticated() ? toggleAddOrUpdateMosqueForm() : goToLogin()">Add New Mosque</button>
 </div>
+<!-- Collapsible Filter Section -->
+<!-- Modal Container -->
+<div class="modal-overlay" *ngIf="showFilters">
+  <div class="modal-content">
+    <span class="close-btn" (click)="toggleFilterVisibility()">×</span>
+
+    <h4>Filter Mosques</h4>
+
+    <!-- Location Filter -->
+    <div *ngFor="let location of uniqueLocations">
+      <label>
+        <input
+          type="checkbox"
+          [value]="location"
+          (change)="onLocationChange(location, $event)"
+          [checked]="selectedLocations[location]"
+        />
+        {{ location }}
+      </label>
+    </div>
+
+    <!-- Prayer Filter -->
+    <h5>Filter by Prayer Time</h5>
+    <div *ngFor="let prayer of prayerTimes">
+      <label>
+        <input
+          type="radio"
+          [value]="prayer.name.toLowerCase()"
+          name="prayerFilter"
+          (change)="onPrayerChange(castToPrayerType(prayer.name.toLowerCase()))"
+          [checked]="selectedPrayer === prayer.name.toLowerCase()"
+        />
+        {{ prayer.name }}
+      </label>
+    </div>
+
+    <div class="filter">
+      <label for="sortBy">Sort by:</label>
+      <select id="sortBy" [(ngModel)]="sortBy" (change)="applySorting()">
+        <option value="name">Name</option>
+        <option value="location">Location</option>
+        <option value="fajr">Fajr</option>
+        <option value="dhuhr">Dhuhr</option>
+        <option value="asr">Asr</option>
+        <option value="maghrib">Maghrib</option>
+        <option value="isha">Isha</option>
+        <option value="juma">Juma</option>
+      </select>
+
+      <select [(ngModel)]="sortOrder" (change)="applySorting()">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+
+      <!--<select [(ngModel)]="selectedLanguage" (change)="applySorting()">
+        <option value="en">English</option>
+        <option value="ur">Urdu</option>
+      </select>-->
+    </div>
+
+    <!-- Apply Filter Button -->
+    <button (click)="applyFilters()">Apply Filters</button>
+  </div>
+</div>
+
+<h2 class="selected-prayer">{{ getPrayerName(selectedPrayer) }} </h2>
 
 <div *ngIf="isAddOrUpdateFormVisible" class="form-container">
   <h3>{{ isEditing ? 'Edit Mosque' : 'Add New Mosque' }}</h3>
@@ -82,7 +84,7 @@
       name="name_en"
       required
     />
-    
+
     <label for="name_ur">Mosque Name (Urdu):</label>
     <input
       id="name_ur"
@@ -98,7 +100,7 @@
       name="location_en"
       required
     />
-    
+
     <label for="location_ur">Location (Urdu):</label>
     <input
       id="location_ur"
@@ -116,7 +118,7 @@
           [(ngModel)]="newMosque.timings.fajr.en"
           name="fajr_en"
         />
-        
+
         <label for="fajr_ur">Fajr (Urdu):</label>
         <input
           id="fajr_ur"
@@ -132,7 +134,7 @@
           [(ngModel)]="newMosque.timings.dhuhr.en"
           name="dhuhr_en"
         />
-        
+
         <label for="dhuhr_ur">Dhuhr (Urdu):</label>
         <input
           id="dhuhr_ur"
@@ -148,7 +150,7 @@
           [(ngModel)]="newMosque.timings.asr.en"
           name="asr_en"
         />
-        
+
         <label for="asr_ur">Asr (Urdu):</label>
         <input
           id="asr_ur"
@@ -164,7 +166,7 @@
           [(ngModel)]="newMosque.timings.maghrib.en"
           name="maghrib_en"
         />
-        
+
         <label for="maghrib_ur">Maghrib (Urdu):</label>
         <input
           id="maghrib_ur"
@@ -180,7 +182,7 @@
           [(ngModel)]="newMosque.timings.isha.en"
           name="isha_en"
         />
-        
+
         <label for="isha_ur">Isha (Urdu):</label>
         <input
           id="isha_ur"
@@ -196,7 +198,7 @@
           [(ngModel)]="newMosque.timings.juma.en"
           name="juma_en"
         />
-        
+
         <label for="juma_ur">Juma (Urdu):</label>
         <input
           id="juma_ur"
@@ -216,53 +218,16 @@
 <div class="mosques-list">
   <ul>
     <li *ngFor="let mosque of filteredMosques">
-      <div>
+      <div (click)="viewMosqueDetails(mosque)" class="mosque-card">
         <h3>{{ mosque.name[selectedLanguage] }}</h3>
         <p>{{ mosque.location[selectedLanguage] }}</p>
         <p>
-          Current Prayer Time: {{ mosque.timings[selectedPrayer][selectedLanguage] }}
+          {{ getPrayerName(selectedPrayer) }} : {{ mosque.timings[selectedPrayer][selectedLanguage] }}
         </p>
-        <button (click)="viewMosqueDetails(mosque)">View Details</button>
+        <button *ngIf="isAuthenticated()" (click)="editMosque(mosque)">Edit</button>
+        <button *ngIf="isAuthenticated()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
+        <!--<button (click)="viewMosqueDetails(mosque)">View Details</button>-->
       </div>
     </li>
   </ul>
 </div>
-
-<!--<div class="mosques-list">
-  <ul>
-    <li *ngFor="let mosque of filteredMosques">
-      <div>
-        <h3>{{ mosque.name[selectedLanguage] }}</h3>
-        <p>{{ mosque.location[selectedLanguage] }}</p>
-        <p>
-          Timings:
-          {{ mosque.timings.fajr[selectedLanguage] }} -
-          {{ mosque.timings.dhuhr[selectedLanguage] }} -
-          {{ mosque.timings.asr[selectedLanguage] }} -
-          {{ mosque.timings.maghrib[selectedLanguage] }} -
-          {{ mosque.timings.isha[selectedLanguage] }} -
-          {{ mosque.timings.juma[selectedLanguage] }}
-        </p>
-        <button *ngIf="isAuthenticated()" (click)="editMosque(mosque)">Edit</button>
-        <button *ngIf="isAuthenticated()" (click)="mosque._id && deleteMosque(mosque._id)">Delete</button>
-        <button (click)="viewMosqueDetails(mosque)">View Details</button>
-      </div>
-    </li>
-  </ul>
-</div>-->
-
-<!--<div *ngFor="let time of prayerTimes" class="mosque-timing">
-  <h3>{{ time.mosque.name[selectedLanguage] }}</h3>
-  <p>Current Prayer: <strong>{{ time.current }}</strong></p>
-  <p>Next Prayer: <strong>{{ time.next }}</strong></p>
-</div> -->
-
-<!--<div class="salah-times">
-  <div class="current-prayer">
-    <p>Current Prayer: {{ currentPrayer }}</p>
-  </div>
-
-  <div class="next-prayer">
-    <p>Next Prayer: {{ nextPrayer }}</p>
-  </div>
-</div>-->
