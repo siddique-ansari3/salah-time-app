@@ -1,12 +1,12 @@
 <div class="user-info-container">
   <ng-container *ngIf="isAuthenticated(); else loginButton">
     <div class="user-info">
-      <p>{{ 'USER_INFO.WELCOME' | translate }}, {{ userName }}</p>
-      <button (click)="logout()">{{ 'USER_INFO.LOGOUT' | translate }}</button>
+      <p>{{ "USER_INFO.WELCOME" | translate }}, {{ userName }}</p>
+      <button (click)="logout()">{{ "USER_INFO.LOGOUT" | translate }}</button>
     </div>
   </ng-container>
 
   <ng-template #loginButton>
-    <button (click)="goToLogin()">{{ 'USER_INFO.LOGIN' | translate }}</button>
+    <button (click)="goToLogin()">{{ "USER_INFO.LOGIN" | translate }}</button>
   </ng-template>
 </div>

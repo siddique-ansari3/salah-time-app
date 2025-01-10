@@ -1,13 +1,37 @@
 <div *ngIf="mosque">
-  <h2> {{ mosque.name[selectedLanguage]  }}</h2>
-  <p> {{ mosque.location[selectedLanguage]  }}</p>
+  <h2>{{ mosque.name[selectedLanguage] }}</h2>
+  <p>{{ mosque.location[selectedLanguage] }}</p>
   <ul>
-    <li>{{ 'MOSQUE_DETAILS.TIMINGS.FAJR' | translate }}: {{ mosque.timings.fajr[selectedLanguage]  }} {{ ('MOSQUE_DETAILS.AMPM.FAJR') | translate }}</li>
-    <li>{{ 'MOSQUE_DETAILS.TIMINGS.DHUHR' | translate }}: {{ mosque.timings.dhuhr[selectedLanguage]  }} {{ ('MOSQUE_DETAILS.AMPM.DHUHR') | translate }}</li>
-    <li>{{ 'MOSQUE_DETAILS.TIMINGS.ASR' | translate }}: {{ mosque.timings.asr[selectedLanguage]  }} {{ ('MOSQUE_DETAILS.AMPM.ASR') | translate }}</li>
-    <li>{{ 'MOSQUE_DETAILS.TIMINGS.MAGHRIB' | translate }}: {{ mosque.timings.maghrib[selectedLanguage]  }} {{ ('MOSQUE_DETAILS.AMPM.MAGHRIB') | translate }}</li>
-    <li>{{ 'MOSQUE_DETAILS.TIMINGS.ISHA' | translate }}: {{ mosque.timings.isha[selectedLanguage]  }} {{ ('MOSQUE_DETAILS.AMPM.ISHA') | translate }}</li>
-    <li>{{ 'MOSQUE_DETAILS.TIMINGS.JUMA' | translate }}: {{ mosque.timings.juma[selectedLanguage]  }} {{ ('MOSQUE_DETAILS.AMPM.JUMA') | translate }}</li>
+    <li>
+      {{ "MOSQUE_DETAILS.TIMINGS.FAJR" | translate }}:
+      {{ mosque.timings.fajr[selectedLanguage] }}
+      {{ "MOSQUE_DETAILS.AMPM.FAJR" | translate }}
+    </li>
+    <li>
+      {{ "MOSQUE_DETAILS.TIMINGS.DHUHR" | translate }}:
+      {{ mosque.timings.dhuhr[selectedLanguage] }}
+      {{ "MOSQUE_DETAILS.AMPM.DHUHR" | translate }}
+    </li>
+    <li>
+      {{ "MOSQUE_DETAILS.TIMINGS.ASR" | translate }}:
+      {{ mosque.timings.asr[selectedLanguage] }}
+      {{ "MOSQUE_DETAILS.AMPM.ASR" | translate }}
+    </li>
+    <li>
+      {{ "MOSQUE_DETAILS.TIMINGS.MAGHRIB" | translate }}:
+      {{ mosque.timings.maghrib[selectedLanguage] }}
+      {{ "MOSQUE_DETAILS.AMPM.MAGHRIB" | translate }}
+    </li>
+    <li>
+      {{ "MOSQUE_DETAILS.TIMINGS.ISHA" | translate }}:
+      {{ mosque.timings.isha[selectedLanguage] }}
+      {{ "MOSQUE_DETAILS.AMPM.ISHA" | translate }}
+    </li>
+    <li>
+      {{ "MOSQUE_DETAILS.TIMINGS.JUMA" | translate }}:
+      {{ mosque.timings.juma[selectedLanguage] }}
+      {{ "MOSQUE_DETAILS.AMPM.JUMA" | translate }}
+    </li>
   </ul>
-  <button (click)="goBack()">{{ 'MOSQUE_DETAILS.BACK' | translate }}</button>
+  <button (click)="goBack()">{{ "MOSQUE_DETAILS.BACK" | translate }}</button>
 </div>

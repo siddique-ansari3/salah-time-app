@@ -19,8 +19,8 @@ bootstrapApplication(AppComponent, {
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    }).providers!
-  ]
+        deps: [HttpClient],
+      },
+    }).providers!,
+  ],
 }).catch((err) => console.error(err));

@@ -12,13 +12,13 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-mosque-details',
   templateUrl: './mosque-details.component.html',
   styleUrls: ['./mosque-details.component.css'],
-  imports: [CommonModule, TranslateModule]
+  imports: [CommonModule, TranslateModule],
 })
 export class MosqueDetailsComponent implements OnInit {
   mosque: any;
   selectedLanguage: Language = 'en';
-  languageSubscription: Subscription | null = null;  // Initialize as null
-    
+  languageSubscription: Subscription | null = null; // Initialize as null
+
   constructor(
     private route: ActivatedRoute,
     private mosqueService: MosqueService,
@@ -26,7 +26,7 @@ export class MosqueDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const mosqueId = params.get('id');
       if (mosqueId) {
         this.fetchMosqueDetails(mosqueId);
@@ -34,10 +34,12 @@ export class MosqueDetailsComponent implements OnInit {
     });
 
     this.selectedLanguage = this.languageService.getLanguage();
-    this.languageSubscription = this.languageService.language$.subscribe((lang) => {
-      this.selectedLanguage = lang;
-      // Optionally, you can trigger actions based on language change
-    });
+    this.languageSubscription = this.languageService.language$.subscribe(
+      (lang) => {
+        this.selectedLanguage = lang;
+        // Optionally, you can trigger actions based on language change
+      }
+    );
   }
 
   fetchMosqueDetails(mosqueId: string): void {
@@ -47,7 +49,7 @@ export class MosqueDetailsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching mosque details', err);
-      }
+      },
     });
   }
 

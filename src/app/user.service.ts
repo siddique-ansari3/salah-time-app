@@ -4,15 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
 
-  constructor(private http: HttpClient,
-    private authService: AuthService,
-  ) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getUserDetails(): void {
     this.authService.getUserDetails().subscribe({
@@ -20,7 +18,7 @@ export class UserService {
       error: (err) => {
         console.error('Error fetching user details', err);
         this.userSubject.next(null);
-      }
+      },
     });
   }
 }

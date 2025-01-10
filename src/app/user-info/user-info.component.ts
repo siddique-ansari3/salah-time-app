@@ -8,16 +8,19 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.css'],
-  imports: [CommonModule, TranslateModule]
+  imports: [CommonModule, TranslateModule],
 })
 export class UserInfoComponent implements OnInit {
   userName: string | null = null;
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.userService.user$.subscribe((user) => {
-      if(user != null){
+      if (user != null) {
         this.userName = user.name;
       }
     });
@@ -25,16 +28,15 @@ export class UserInfoComponent implements OnInit {
 
   goToLogin(): void {
     // Navigate to login page
-    window.location.href = '/login';  // Or use Angular router if available
+    window.location.href = '/login'; // Or use Angular router if available
   }
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
-  
+
   logout(): void {
     localStorage.removeItem('token');
-    window.location.reload();  // Refresh to reset state
+    window.location.reload(); // Refresh to reset state
   }
-  
 }

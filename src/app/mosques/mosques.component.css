@@ -1,13 +1,15 @@
 /* Global Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f7fc;
   color: #333;
 }
 
-h1, h3, h2 {
+h1,
+h3,
+h2 {
   color: #2c3e50;
   margin: 0;
   padding: 10px 0;
@@ -156,7 +158,7 @@ form button:hover {
 }
 
 .filter select:focus {
-  border-color: #007BFF;
+  border-color: #007bff;
 }
 
 /* Mobile Adjustments for Single Row */
@@ -278,7 +280,7 @@ form button:hover {
 
 .add-mosque-container button {
   padding: 12px 24px;
-  background-color: #27ae60;  /* Green color to distinguish from other buttons */
+  background-color: #27ae60; /* Green color to distinguish from other buttons */
   color: white;
   border: none;
   border-radius: 5px;
@@ -290,11 +292,11 @@ form button:hover {
 
 .add-mosque-container button:hover {
   background-color: #219150;
-  transform: translateY(-2px);  /* Slight lift on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .add-mosque-container button:active {
-  transform: translateY(1px);  /* Button press effect */
+  transform: translateY(1px); /* Button press effect */
 }
 
 .filter-container {
@@ -367,7 +369,7 @@ button:hover {
   border-radius: 10px;
   padding: 20px;
   width: 100%;
-  max-width: 350px;  /* Increased width for better spacing */
+  max-width: 350px; /* Increased width for better spacing */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -391,7 +393,7 @@ button:hover {
 }
 
 .mosque-card button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -409,19 +411,19 @@ button:hover {
 /* Tablet and Smaller Screens */
 @media (max-width: 1024px) {
   .mosques-list ul {
-    grid-template-columns: repeat(2, 1fr);  /* 2 cards per row */
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
   }
 }
 
 /* Mobile Phones */
 @media (max-width: 768px) {
   .mosques-list ul {
-    grid-template-columns: 1fr;  /* 1 card per row */
+    grid-template-columns: 1fr; /* 1 card per row */
   }
 
   .mosque-card {
-    max-width: 90%;  /* Allow card to take more space */
-    margin: 0 auto;  /* Center cards */
+    max-width: 90%; /* Allow card to take more space */
+    margin: 0 auto; /* Center cards */
     padding: 15px;
   }
 

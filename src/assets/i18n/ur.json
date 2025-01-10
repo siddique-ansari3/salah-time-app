@@ -1,11 +1,11 @@
 {
-    "HEADER": {
-      "SELECT_LANGUAGE": "زبان منتخب کریں",
-      "LANGUAGE_ENGLISH": "انگریزی",
-      "LANGUAGE_URDU": "اردو",
-      "ALL_MOSQUES": "تمام مساجد"
-    },
-    "USER_INFO": {
+  "HEADER": {
+    "SELECT_LANGUAGE": "زبان منتخب کریں",
+    "LANGUAGE_ENGLISH": "انگریزی",
+    "LANGUAGE_URDU": "اردو",
+    "ALL_MOSQUES": "تمام مساجد"
+  },
+  "USER_INFO": {
     "WELCOME": "خوش آمدید",
     "LOGOUT": "لاگ آؤٹ",
     "LOGIN": "لاگ ان کریں"
@@ -22,12 +22,12 @@
       "JUMA": "جمعہ"
     },
     "AMPM": {
-        "FAJR": "صبح",
-        "DHUHR": "دوپہر",
-        "ASR": "شام",
-        "MAGHRIB": "شام",
-        "ISHA": "رات",
-        "JUMA": "دوپہر"
+      "FAJR": "صبح",
+      "DHUHR": "دوپہر",
+      "ASR": "شام",
+      "MAGHRIB": "شام",
+      "ISHA": "رات",
+      "JUMA": "دوپہر"
     },
     "BACK": "واپس"
   },
@@ -37,47 +37,47 @@
     "PASSWORD": "پاس ورڈ",
     "LOGIN_BUTTON": "لاگ ان"
   },
-    "SEARCH_BAR": {
-      "PLACEHOLDER": "مساجد تلاش کریں"
-    },
-    "MOSQUE_LIST": {
-      "ADD_NEW_MOSQUE": "نئی مسجد شامل کریں",
-      "VIEW_DETAILS": "تفصیلات دیکھیں",
-      "EDIT": "ترمیم کریں",
-      "DELETE": "حذف کریں"
-    },
-    "FILTER": {
-      "MOSQUES": "مساجد کو فلٹر کریں",
-      "BY_PRAYER_TIME": "نماز کے وقت کے مطابق فلٹر کریں",
-      "SORT_BY": "ترتیب دیں:",
-      "NAME": "نام",
-      "LOCATION": "مقام",
-      "PRAYER_TIME": "نماز کا وقت",
-      "ASCENDING": "چڑھتا ہوا",
-      "DESCENDING": "گرتا ہوا",
-      "APPLY": "فلٹرز اپلائی کریں"
-    },
-    "MOSQUE_FORM": {
-      "NAME_EN": "مسجد کا نام (انگریزی)",
-      "NAME_UR": "مسجد کا نام (اردو)",
-      "LOCATION_EN": "مقام (انگریزی)",
-      "LOCATION_UR": "مقام (اردو)",
-      "PRAYER_TIMINGS": "نماز کے اوقات",
-      "FAJR_EN": "فجر (انگریزی)",
-      "FAJR_UR": "فجر (اردو)",
-      "DHUHR_EN": "ظہر (انگریزی)",
-      "DHUHR_UR": "ظہر (اردو)",
-      "ASR_EN": "عصر (انگریزی)",
-      "ASR_UR": "عصر (اردو)",
-      "MAGHRIB_EN": "مغرب (انگریزی)",
-      "MAGHRIB_UR": "مغرب (اردو)",
-      "ISHA_EN": "عشاء (انگریزی)",
-      "ISHA_UR": "عشاء (اردو)",
-      "JUMA_EN": "جمعہ (انگریزی)",
-      "JUMA_UR": "جمعہ (اردو)",
-      "EDIT": "مسجد میں ترمیم کریں",
-      "ADD": "نئی مسجد شامل کریں",
-      "UPDATE": "اپ ڈیٹ کریں",
-      "CANCEL": "منسوخ کریں"
-    }
+  "SEARCH_BAR": {
+    "PLACEHOLDER": "مساجد تلاش کریں"
+  },
+  "MOSQUE_LIST": {
+    "ADD_NEW_MOSQUE": "نئی مسجد شامل کریں",
+    "VIEW_DETAILS": "تفصیلات دیکھیں",
+    "EDIT": "ترمیم کریں",
+    "DELETE": "حذف کریں"
+  },
+  "FILTER": {
+    "MOSQUES": "مساجد کو فلٹر کریں",
+    "BY_PRAYER_TIME": "نماز کے وقت کے مطابق فلٹر کریں",
+    "SORT_BY": "ترتیب دیں:",
+    "NAME": "نام",
+    "LOCATION": "مقام",
+    "PRAYER_TIME": "نماز کا وقت",
+    "ASCENDING": "چڑھتا ہوا",
+    "DESCENDING": "گرتا ہوا",
+    "APPLY": "فلٹرز اپلائی کریں"
+  },
+  "MOSQUE_FORM": {
+    "NAME_EN": "مسجد کا نام (انگریزی)",
+    "NAME_UR": "مسجد کا نام (اردو)",
+    "LOCATION_EN": "مقام (انگریزی)",
+    "LOCATION_UR": "مقام (اردو)",
+    "PRAYER_TIMINGS": "نماز کے اوقات",
+    "FAJR_EN": "فجر (انگریزی)",
+    "FAJR_UR": "فجر (اردو)",
+    "DHUHR_EN": "ظہر (انگریزی)",
+    "DHUHR_UR": "ظہر (اردو)",
+    "ASR_EN": "عصر (انگریزی)",
+    "ASR_UR": "عصر (اردو)",
+    "MAGHRIB_EN": "مغرب (انگریزی)",
+    "MAGHRIB_UR": "مغرب (اردو)",
+    "ISHA_EN": "عشاء (انگریزی)",
+    "ISHA_UR": "عشاء (اردو)",
+    "JUMA_EN": "جمعہ (انگریزی)",
+    "JUMA_UR": "جمعہ (اردو)",
+    "EDIT": "مسجد میں ترمیم کریں",
+    "ADD": "نئی مسجد شامل کریں",
+    "UPDATE": "اپ ڈیٹ کریں",
+    "CANCEL": "منسوخ کریں"
   }
+}
