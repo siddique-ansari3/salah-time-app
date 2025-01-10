@@ -5,26 +5,32 @@ import { LanguageService } from './language.service';
 import { UserService } from './user.service';
 import { Language } from './models/language.model';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [RouterOutlet, UserInfoComponent, FormsModule] // Add UserInfoComponent here
+  imports: [RouterOutlet, UserInfoComponent, FormsModule, TranslateModule],
 })
 export class AppComponent {
   selectedLanguage: Language = 'en';
 
-  constructor(private languageService: LanguageService, private userService: UserService) {
-  }
+  constructor(
+    private languageService: LanguageService,
+    private userService: UserService,
+    private translate: TranslateService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // Sync translation service with language changes
     this.languageService.language$.subscribe((lang) => {
       this.selectedLanguage = lang;
+      this.translate.use(lang);
     });
-    //this.selectedLanguage = this.languageService.getLanguage();
-    // Fetch user info if token exists
+
+    // Fetch user details if token exists
     const token = localStorage.getItem('token');
     if (token) {
       this.userService.getUserDetails();
@@ -32,10 +38,13 @@ export class AppComponent {
   }
 
   onLanguageChange(event: Event): void {
-    const language = (event.target as HTMLSelectElement).value;
+    const language = (event.target as HTMLSelectElement).value as Language;
     if (language === 'en' || language === 'ur') {
-      this.selectedLanguage = language;
       this.languageService.setLanguage(language);
     }
+  }
+
+  showAllMosques(): void {
+    window.location.href = '/'; 
   }
 }

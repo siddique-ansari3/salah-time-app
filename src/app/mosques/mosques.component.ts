@@ -10,11 +10,12 @@ import { LanguageService } from '../language.service';
 import { Language } from '../models/language.model';
 import { Subscription } from 'rxjs';
 import { PRAYER_TIMES, PrayerTime, PrayerType, prayerMap } from '../constant/prayer-times';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mosques',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './mosques.component.html',
   styleUrl: './mosques.component.css',
 })

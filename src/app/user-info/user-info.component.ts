@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, TranslateModule]
 })
 export class UserInfoComponent implements OnInit {
   userName: string | null = null;
@@ -19,7 +20,6 @@ export class UserInfoComponent implements OnInit {
       if(user != null){
         this.userName = user.name;
       }
-      
     });
   }
 

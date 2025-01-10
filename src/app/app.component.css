@@ -141,3 +141,31 @@ button:hover {
         padding: 10px 18px;
     }
 }
+
+.home.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* No underline */
+    transition: background-color 0.3s, transform 0.2s ease; /* Smooth transitions */
+  }
+  
+  .home.btn:hover {
+    background-color: #45a049; /* Slightly darker green */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+  }
+  
+  .home.btn:active {
+    background-color: #388e3c; /* Darker green on click */
+    transform: scale(0.98); /* Slightly shrink the button on click */
+  }
+  
+  .home.btn:focus {
+    outline: none; /* Remove the default focus outline */
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Add a glowing focus effect */
+  }

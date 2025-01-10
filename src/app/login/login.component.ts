@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { NgIf, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NgIf]  // Import CommonModule and FormsModule
+  imports: [CommonModule, FormsModule, NgIf, TranslateModule]  // Import CommonModule and FormsModule
 })
 export class LoginComponent {
   email = '';
