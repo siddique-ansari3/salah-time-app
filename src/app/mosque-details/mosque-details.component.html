@@ -1,13 +1,13 @@
 <div *ngIf="mosque">
-  <h2>{{ mosque.name[selectedLanguage] }}</h2>
-  <p>Location: {{ mosque.location[selectedLanguage] }}</p>
+  <h2>{{ 'MOSQUE_DETAILS.NAME' | translate }}: {{ mosque.name[selectedLanguage]  }}</h2>
+  <p>{{ 'MOSQUE_DETAILS.LOCATION' | translate }}: {{ mosque.location[selectedLanguage]  }}</p>
   <ul>
-    <li>Fajr: {{ mosque.timings.fajr[selectedLanguage] }}</li>
-    <li>Dhuhr: {{ mosque.timings.dhuhr[selectedLanguage] }}</li>
-    <li>Asr: {{ mosque.timings.asr[selectedLanguage] }}</li>
-    <li>Maghrib: {{ mosque.timings.maghrib[selectedLanguage] }}</li>
-    <li>Isha: {{ mosque.timings.isha[selectedLanguage] }}</li>
-    <li>Juma: {{ mosque.timings.juma[selectedLanguage] }}</li>
+    <li>{{ 'MOSQUE_DETAILS.TIMINGS.FAJR' | translate }}: {{ mosque.timings.fajr[selectedLanguage]  }}</li>
+    <li>{{ 'MOSQUE_DETAILS.TIMINGS.DHUHR' | translate }}: {{ mosque.timings.dhuhr[selectedLanguage]  }}</li>
+    <li>{{ 'MOSQUE_DETAILS.TIMINGS.ASR' | translate }}: {{ mosque.timings.asr[selectedLanguage]  }}</li>
+    <li>{{ 'MOSQUE_DETAILS.TIMINGS.MAGHRIB' | translate }}: {{ mosque.timings.maghrib[selectedLanguage]  }}</li>
+    <li>{{ 'MOSQUE_DETAILS.TIMINGS.ISHA' | translate }}: {{ mosque.timings.isha[selectedLanguage]  }}</li>
+    <li>{{ 'MOSQUE_DETAILS.TIMINGS.JUMA' | translate }}: {{ mosque.timings.juma[selectedLanguage]  }}</li>
   </ul>
-  <button (click)="goBack()">Back</button>
+  <button (click)="goBack()">{{ 'MOSQUE_DETAILS.BACK' | translate }}</button>
 </div>

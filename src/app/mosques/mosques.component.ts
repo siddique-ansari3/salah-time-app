@@ -10,11 +10,12 @@ import { LanguageService } from '../language.service';
 import { Language } from '../models/language.model';
 import { Subscription } from 'rxjs';
 import { PRAYER_TIMES, PrayerTime, PrayerType, prayerMap } from '../constant/prayer-times';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mosques',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './mosques.component.html',
   styleUrl: './mosques.component.css',
 })
@@ -304,18 +305,6 @@ applyFilters(): void {
     }
   }
 
-  changeLanguage(lang: 'en' | 'ur') {
-    this.selectedLanguage = lang;
-    this.applySorting();
-    this.searchMosques();
-  }
-
-  viewMosqueDetails1(mosque: Mosque): void {
-    this.selectedMosque = mosque;
-    console.log(mosque);
-    this.router.navigate(['/mosque-details', mosque._id]);
-  }
-
   viewMosqueDetails(mosque: any): void {
     if (mosque && mosque._id) {
       this.router.navigate(['/mosque', mosque._id]);  // Redirect to mosque details page with ID
@@ -367,7 +356,10 @@ calculateCurrentAndNextPrayer(): void {
 }
 
 getPrayerName(key: string): string {
-  return prayerMap[key][this.selectedLanguage] || prayerMap[key]['en'];
+  
+  const prayerName =  prayerMap[key][this.selectedLanguage] || prayerMap[key]['en'];
+  console.log("Fetching prayer name for + ", key, this.selectedLanguage, prayerName);
+  return prayerName;
 }
 
 }

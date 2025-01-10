@@ -5,13 +5,14 @@ import { MosqueService } from '../mosque.service';
 import { Language } from '../models/language.model';
 import { Subscription } from 'rxjs';
 import { LanguageService } from '../language.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-mosque-details',
   templateUrl: './mosque-details.component.html',
   styleUrls: ['./mosque-details.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, TranslateModule]
 })
 export class MosqueDetailsComponent implements OnInit {
   mosque: any;

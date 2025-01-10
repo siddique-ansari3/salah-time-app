@@ -1,0 +1,75 @@
+{
+    "HEADER": {
+      "SELECT_LANGUAGE": "Select Language",
+      "LANGUAGE_ENGLISH": "English",
+      "LANGUAGE_URDU": "Urdu",
+      "ALL_MOSQUES": "All Mosques"
+    },
+    "USER_INFO": {
+      "WELCOME": "Welcome",
+      "LOGOUT": "Logout",
+      "LOGIN": "Login"
+    },
+    "MOSQUE_DETAILS": {
+    "NAME": "Name",
+    "LOCATION": "Location",
+    "TIMINGS": {
+      "FAJR": "Fajr",
+      "DHUHR": "Dhuhr",
+      "ASR": "Asr",
+      "MAGHRIB": "Maghrib",
+      "ISHA": "Isha",
+      "JUMA": "Juma"
+    },
+    "BACK": "Back"
+    },
+    "LOGIN": {
+    "TITLE": "Login",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "LOGIN_BUTTON": "Login"
+  },
+    "SEARCH_BAR": {
+      "PLACEHOLDER": "Search mosques"
+    },
+    "MOSQUE_LIST": {
+      "ADD_NEW_MOSQUE": "Add New Mosque",
+      "VIEW_DETAILS": "View Details",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "FILTER": {
+      "MOSQUES": "Filter Mosques",
+      "BY_PRAYER_TIME": "Filter by Prayer Time",
+      "SORT_BY": "Sort by",
+      "NAME": "Name",
+      "LOCATION": "Location",
+      "PRAYER_TIME": "Prayer time",
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending",
+      "APPLY": "Apply Filters"
+    },
+    "MOSQUE_FORM": {
+      "NAME_EN": "Mosque Name (English)",
+      "NAME_UR": "Mosque Name (Urdu)",
+      "LOCATION_EN": "Location (English)",
+      "LOCATION_UR": "Location (Urdu)",
+      "PRAYER_TIMINGS": "Prayer Timings",
+      "FAJR_EN": "Fajr (English)",
+      "FAJR_UR": "Fajr (Urdu)",
+      "DHUHR_EN": "Dhuhr (English)",
+      "DHUHR_UR": "Dhuhr (Urdu)",
+      "ASR_EN": "Asr (English)",
+      "ASR_UR": "Asr (Urdu)",
+      "MAGHRIB_EN": "Maghrib (English)",
+      "MAGHRIB_UR": "Maghrib (Urdu)",
+      "ISHA_EN": "Isha (English)",
+      "ISHA_UR": "Isha (Urdu)",
+      "JUMA_EN": "Juma (English)",
+      "JUMA_UR": "Juma (Urdu)",
+      "EDIT": "Edit Mosque",
+      "ADD": "Add New Mosque",
+      "UPDATE": "Update",
+      "CANCEL": "Cancel"
+    }
+  }
