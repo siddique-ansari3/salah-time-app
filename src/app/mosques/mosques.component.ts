@@ -134,13 +134,17 @@ applyFilters(): void {
     const matchesLocation = Object.keys(this.selectedLocations).length === 0 ||
       this.selectedLocations[mosque.location[this.selectedLanguage]];
     
-      const selectedPrayerKey = this.selectedPrayer.toLowerCase() as PrayerType;
+    const selectedPrayerKey = this.selectedPrayer.toLowerCase() as PrayerType;
+
+    console.log(`Comparing times for prayer: ${selectedPrayerKey}`);
 
     const matchesPrayer = 
     mosque.timings[selectedPrayerKey]?.[this.selectedLanguage];
 
     return matchesLocation && matchesPrayer;
   });
+
+  this.applySorting();
 
   // Hide filters after applying
   this.showFilters = false;
@@ -162,7 +166,7 @@ applyFilters(): void {
   applySorting() {
     this.filteredMosques.sort((a, b) => {
       let comparison = 0;
-      
+      console.log(`Sorting by: ${this.sortBy}, Order: ${this.sortOrder}`);
       if (this.sortBy === 'name') {
         comparison = a.name[this.selectedLanguage].localeCompare(b.name[this.selectedLanguage]);
       } else if (this.sortBy === 'location') {
@@ -176,18 +180,38 @@ applyFilters(): void {
   }
   
   compareTimings(a: Mosque, b: Mosque): number {
-    const timeA = a.timings[this.sortBy as keyof typeof a.timings][this.selectedLanguage];
-    const timeB = b.timings[this.sortBy as keyof typeof b.timings][this.selectedLanguage];
-    
-    const timeAInMinutes = this.convertTimeToMinutes(timeA);
-    const timeBInMinutes = this.convertTimeToMinutes(timeB);
-    
+    const currentPrayer = this.selectedPrayer; // Determine the current prayer dynamically
+    if (!currentPrayer) {
+      return 0; // No current prayer to compare
+    }
+    console.log(`Comparing times for prayer: ${this.selectedPrayer}`);
+    console.log(`Mosque A time: ${a.timings[this.selectedPrayer][this.selectedLanguage]}, Mosque B time: ${b.timings[this.selectedPrayer][this.selectedLanguage]}`);  
+  
+    const timeA = a.timings[currentPrayer][this.selectedLanguage];
+    const timeB = b.timings[currentPrayer][this.selectedLanguage];
+    const timeAInMinutes = this.convertTimeToMinutes12HourFormat(timeA, currentPrayer);
+    const timeBInMinutes = this.convertTimeToMinutes12HourFormat(timeB, currentPrayer);
     return timeAInMinutes - timeBInMinutes;
   }
+
+  convertTimeToMinutes12HourFormat(time: string, prayer: string): number {
+    const timeParts = time.match(/(\d+):(\d+)/); // Extract hours and minutes
+    if (!timeParts) {
+      throw new Error(`Invalid time format: ${time}`);
+    }
   
-  convertTimeToMinutes(time: string): number {
-    if (!time) return -1;  
-    const [hours, minutes] = time.split(':').map(Number);
+    let hours = parseInt(timeParts[1], 10);
+    const minutes = parseInt(timeParts[2], 10);
+  
+    // Convert hours to 24-hour format based on the prayer sequence
+    const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+  
+    if (prayerOrder.indexOf(prayer) >= prayerOrder.indexOf('Dhuhr') && hours < 12) {
+      hours += 12; // Convert afternoon/evening prayers to PM
+    } else if (prayer === 'Fajr' && hours === 12) {
+      hours = 0; // Handle midnight as 0 for Fajr
+    }
+  
     return hours * 60 + minutes;
   }
 

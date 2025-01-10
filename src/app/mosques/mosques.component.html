@@ -45,26 +45,16 @@
 
     <div class="filter">
       <label for="sortBy">Sort by:</label>
-      <select id="sortBy" [(ngModel)]="sortBy" (change)="applySorting()">
+      <select id="sortBy" [(ngModel)]="sortBy">
         <option value="name">Name</option>
         <option value="location">Location</option>
-        <option value="fajr">Fajr</option>
-        <option value="dhuhr">Dhuhr</option>
-        <option value="asr">Asr</option>
-        <option value="maghrib">Maghrib</option>
-        <option value="isha">Isha</option>
-        <option value="juma">Juma</option>
+        <option value="prayerTime">Prayer time</option>
       </select>
 
-      <select [(ngModel)]="sortOrder" (change)="applySorting()">
+      <select [(ngModel)]="sortOrder">
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
-
-      <!--<select [(ngModel)]="selectedLanguage" (change)="applySorting()">
-        <option value="en">English</option>
-        <option value="ur">Urdu</option>
-      </select>-->
     </div>
 
     <!-- Apply Filter Button -->
