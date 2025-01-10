@@ -40,7 +40,7 @@
           (change)="onPrayerChange(castToPrayerType(prayer.name.toLowerCase()))"
           [checked]="selectedPrayer === prayer.name.toLowerCase()"
         />
-        {{ prayer.name }}
+        {{ getPrayerName(prayer.name.toLowerCase()) }}
       </label>
     </div>
 
