@@ -11,18 +11,23 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NgIf, TranslateModule]  // Import CommonModule and FormsModule
+  imports: [CommonModule, FormsModule, NgIf, TranslateModule], // Import CommonModule and FormsModule
 })
 export class LoginComponent {
   email = '';
   password = '';
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router, private userService: UserService ) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   onSubmit() {
     console.log(this.email);
-    this.authService.login({ email: this.email, password: this.password })
+    this.authService
+      .login({ email: this.email, password: this.password })
       .subscribe({
         next: (res) => {
           localStorage.setItem('token', res.token);
@@ -31,7 +36,7 @@ export class LoginComponent {
         },
         error: (err) => {
           this.errorMessage = err.error.message || 'Invalid credentials';
-        }
+        },
       });
   }
 }

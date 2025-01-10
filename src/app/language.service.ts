@@ -3,11 +3,12 @@ import { BehaviorSubject } from 'rxjs';
 import { Language } from './models/language.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
   private languageKey = 'selectedLanguage';
-  private languageSubject: BehaviorSubject<Language> = new BehaviorSubject<Language>(this.getStoredLanguage()); // Initialize here
+  private languageSubject: BehaviorSubject<Language> =
+    new BehaviorSubject<Language>(this.getStoredLanguage()); // Initialize here
 
   language$ = this.languageSubject.asObservable(); // Expose the observable to other components
 
@@ -17,7 +18,7 @@ export class LanguageService {
 
   setLanguage(language: Language): void {
     localStorage.setItem(this.languageKey, language);
-    this.languageSubject.next(language);  // Emit new language value
+    this.languageSubject.next(language); // Emit new language value
   }
 
   getLanguage(): Language {

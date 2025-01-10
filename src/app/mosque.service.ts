@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 })
 export class MosqueService {
   private apiUrl = environment.apiUrl + '/mosques';
-  
+
   constructor(private http: HttpClient) {}
 
   getMosques(): Observable<any> {
@@ -27,9 +27,8 @@ export class MosqueService {
   getMosqueById(id: string): Observable<Mosque> {
     return this.http.get<Mosque>(`${this.apiUrl}/${id}`);
   }
-  
+
   updateMosque(id: string, updatedData: Mosque): Observable<Mosque> {
     return this.http.put<Mosque>(`${this.apiUrl}/${id}`, updatedData);
   }
-
 }

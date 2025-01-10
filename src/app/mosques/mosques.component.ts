@@ -9,7 +9,12 @@ import { MosqueDetailsComponent } from '../mosque-details/mosque-details.compone
 import { LanguageService } from '../language.service';
 import { Language } from '../models/language.model';
 import { Subscription } from 'rxjs';
-import { PRAYER_TIMES, PrayerTime, PrayerType, prayerMap } from '../constant/prayer-times';
+import {
+  PRAYER_TIMES,
+  PrayerTime,
+  PrayerType,
+  prayerMap,
+} from '../constant/prayer-times';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -31,9 +36,9 @@ export class MosquesComponent {
   filteredMosques: Mosque[] = [];
   searchQuery: string = '';
   selectedLanguage: Language = 'en';
-  languageSubscription: Subscription | null = null;  // Initialize as null
+  languageSubscription: Subscription | null = null; // Initialize as null
   uniqueLocations: string[] = [];
-  selectedPrayer: PrayerType = 'fajr';  // Default to current prayer
+  selectedPrayer: PrayerType = 'fajr'; // Default to current prayer
   selectedPrayerKey = this.selectedPrayer.toLowerCase() as PrayerType;
   selectedLocations: { [key: string]: boolean } = {};
   showFilters: boolean = false;
@@ -68,18 +73,19 @@ export class MosquesComponent {
   isEditing = false;
   isAddOrUpdateFormVisible = false;
 
-  sortBy: string = 'name';  
-  sortOrder: 'asc' | 'desc' = 'asc'; 
+  sortBy: string = 'prayerTime';
+  sortOrder: 'asc' | 'desc' = 'asc';
 
   ngOnInit() {
     this.loadMosques();
     this.selectedLanguage = this.languageService.getLanguage();
-    this.languageSubscription = this.languageService.language$.subscribe((lang) => {
-      this.selectedLanguage = lang;
-      // Optionally, you can trigger actions based on language change
-      this.loadMosques();
-    });
-
+    this.languageSubscription = this.languageService.language$.subscribe(
+      (lang) => {
+        this.selectedLanguage = lang;
+        // Optionally, you can trigger actions based on language change
+        this.loadMosques();
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -92,71 +98,70 @@ export class MosquesComponent {
   loadMosques() {
     this.mosqueService.getMosques().subscribe((mosques: Mosque[]) => {
       this.mosques = mosques;
-      this.filteredMosques = mosques; 
-     // this.applySorting();
+      this.filteredMosques = mosques;
+      // this.applySorting();
       this.calculateCurrentAndNextPrayer();
 
       this.uniqueLocations = Array.from(
         new Set(
-          this.mosques
-            .map(mosque => mosque.location[this.selectedLanguage] || mosque.location['en']) // Fallback to 'en' if undefined
+          this.mosques.map(
+            (mosque) =>
+              mosque.location[this.selectedLanguage] || mosque.location['en']
+          ) // Fallback to 'en' if undefined
         )
       );
-  
-      this.uniqueLocations.forEach(location => {
+
+      this.uniqueLocations.forEach((location) => {
         this.selectedLocations[location] = true;
       });
     });
-
   }
-
 
   castToPrayerType(prayer: string): PrayerType {
     return prayer as PrayerType;
   }
 
-// Toggle filter visibility
-toggleFilterVisibility(): void {
-  this.showFilters = !this.showFilters;
-}
+  // Toggle filter visibility
+  toggleFilterVisibility(): void {
+    this.showFilters = !this.showFilters;
+  }
 
-// Track selected locations
-onLocationChange(location: string, event: any): void {
-  this.selectedLocations[location] = event.target.checked;
-}
+  // Track selected locations
+  onLocationChange(location: string, event: any): void {
+    this.selectedLocations[location] = event.target.checked;
+  }
 
-onPrayerChange(prayer: PrayerType): void {
-  this.selectedPrayer = prayer;
-}
+  onPrayerChange(prayer: PrayerType): void {
+    this.selectedPrayer = prayer;
+  }
 
-// Apply filters
-applyFilters(): void {
-  this.filteredMosques = this.mosques.filter(mosque => {
-    const matchesLocation = Object.keys(this.selectedLocations).length === 0 ||
-      this.selectedLocations[mosque.location[this.selectedLanguage]];
-    
-    const selectedPrayerKey = this.selectedPrayer.toLowerCase() as PrayerType;
+  // Apply filters
+  applyFilters(): void {
+    this.filteredMosques = this.mosques.filter((mosque) => {
+      const matchesLocation =
+        Object.keys(this.selectedLocations).length === 0 ||
+        this.selectedLocations[mosque.location[this.selectedLanguage]];
 
-    console.log(`Comparing times for prayer: ${selectedPrayerKey}`);
+      const selectedPrayerKey = this.selectedPrayer.toLowerCase() as PrayerType;
 
-    const matchesPrayer = 
-    mosque.timings[selectedPrayerKey]?.[this.selectedLanguage];
+      const matchesPrayer =
+        mosque.timings[selectedPrayerKey]?.[this.selectedLanguage];
 
-    return matchesLocation && matchesPrayer;
-  });
+      return matchesLocation && matchesPrayer;
+    });
 
-  this.applySorting();
+    this.applySorting();
 
-  // Hide filters after applying
-  this.showFilters = false;
-}
+    // Hide filters after applying
+    this.showFilters = false;
+  }
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
 
   goToLogin() {
-    this.router.navigate(['/login']);  // Adjust to your actual login route
+    this.router.navigate(['/login']); // Adjust to your actual login route
   }
 
   // Filter based on the selected prayer time
@@ -167,31 +172,38 @@ applyFilters(): void {
   applySorting() {
     this.filteredMosques.sort((a, b) => {
       let comparison = 0;
-      console.log(`Sorting by: ${this.sortBy}, Order: ${this.sortOrder}`);
       if (this.sortBy === 'name') {
-        comparison = a.name[this.selectedLanguage].localeCompare(b.name[this.selectedLanguage]);
+        comparison = a.name[this.selectedLanguage].localeCompare(
+          b.name[this.selectedLanguage]
+        );
       } else if (this.sortBy === 'location') {
-        comparison = a.location[this.selectedLanguage].localeCompare(b.location[this.selectedLanguage]);
+        comparison = a.location[this.selectedLanguage].localeCompare(
+          b.location[this.selectedLanguage]
+        );
       } else {
         comparison = this.compareTimings(a, b);
       }
-      
+
       return this.sortOrder === 'asc' ? comparison : -comparison;
     });
   }
-  
+
   compareTimings(a: Mosque, b: Mosque): number {
     const currentPrayer = this.selectedPrayer; // Determine the current prayer dynamically
     if (!currentPrayer) {
       return 0; // No current prayer to compare
     }
-    console.log(`Comparing times for prayer: ${this.selectedPrayer}`);
-    console.log(`Mosque A time: ${a.timings[this.selectedPrayer][this.selectedLanguage]}, Mosque B time: ${b.timings[this.selectedPrayer][this.selectedLanguage]}`);  
-  
+
     const timeA = a.timings[currentPrayer][this.selectedLanguage];
     const timeB = b.timings[currentPrayer][this.selectedLanguage];
-    const timeAInMinutes = this.convertTimeToMinutes12HourFormat(timeA, currentPrayer);
-    const timeBInMinutes = this.convertTimeToMinutes12HourFormat(timeB, currentPrayer);
+    const timeAInMinutes = this.convertTimeToMinutes12HourFormat(
+      timeA,
+      currentPrayer
+    );
+    const timeBInMinutes = this.convertTimeToMinutes12HourFormat(
+      timeB,
+      currentPrayer
+    );
     return timeAInMinutes - timeBInMinutes;
   }
 
@@ -200,51 +212,76 @@ applyFilters(): void {
     if (!timeParts) {
       throw new Error(`Invalid time format: ${time}`);
     }
-  
+
     let hours = parseInt(timeParts[1], 10);
     const minutes = parseInt(timeParts[2], 10);
-  
+
     // Convert hours to 24-hour format based on the prayer sequence
     const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-  
-    if (prayerOrder.indexOf(prayer) >= prayerOrder.indexOf('Dhuhr') && hours < 12) {
+
+    if (
+      prayerOrder.indexOf(prayer) >= prayerOrder.indexOf('Dhuhr') &&
+      hours < 12
+    ) {
       hours += 12; // Convert afternoon/evening prayers to PM
     } else if (prayer === 'Fajr' && hours === 12) {
       hours = 0; // Handle midnight as 0 for Fajr
     }
-  
+
     return hours * 60 + minutes;
   }
 
   searchMosques() {
-    this.filteredMosques = this.mosques.filter((mosque) =>
-      (mosque.name[this.selectedLanguage].toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        mosque.location[this.selectedLanguage].toLowerCase().includes(this.searchQuery.toLowerCase())) &&
-      this.filterByTimings(mosque)
+    this.filteredMosques = this.mosques.filter(
+      (mosque) =>
+        (mosque.name[this.selectedLanguage]
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase()) ||
+          mosque.location[this.selectedLanguage]
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())) &&
+        this.filterByTimings(mosque)
     );
     this.applySorting();
   }
-  
+
   filterByTimings(mosque: Mosque): boolean {
     const timings = mosque.timings;
     return (
       (this.filters.fajr ? timings.fajr[this.selectedLanguage] !== '' : true) &&
-      (this.filters.dhuhr ? timings.dhuhr[this.selectedLanguage] !== '' : true) &&
+      (this.filters.dhuhr
+        ? timings.dhuhr[this.selectedLanguage] !== ''
+        : true) &&
       (this.filters.asr ? timings.asr[this.selectedLanguage] !== '' : true) &&
-      (this.filters.maghrib ? timings.maghrib[this.selectedLanguage] !== '' : true) &&
+      (this.filters.maghrib
+        ? timings.maghrib[this.selectedLanguage] !== ''
+        : true) &&
       (this.filters.isha ? timings.isha[this.selectedLanguage] !== '' : true) &&
       (this.filters.juma ? timings.juma[this.selectedLanguage] !== '' : true)
     );
   }
 
   filterTimings() {
-    this.filteredMosques = this.mosques.filter((mosque) =>
-      (this.filters.fajr ? mosque.timings.fajr[this.selectedLanguage] !== '' : true) &&
-      (this.filters.dhuhr ? mosque.timings.dhuhr[this.selectedLanguage] !== '' : true) &&
-      (this.filters.asr ? mosque.timings.asr[this.selectedLanguage] !== '' : true) &&
-      (this.filters.maghrib ? mosque.timings.maghrib[this.selectedLanguage] !== '' : true) &&
-      (this.filters.isha ? mosque.timings.isha[this.selectedLanguage] !== '' : true) &&
-      (this.filters.juma ? mosque.timings.juma[this.selectedLanguage] !== '' : true)
+    this.filteredMosques = this.mosques.filter(
+      (mosque) =>
+        (this.filters.fajr
+          ? mosque.timings.fajr[this.selectedLanguage] !== ''
+          : true) &&
+        (this.filters.dhuhr
+          ? mosque.timings.dhuhr[this.selectedLanguage] !== ''
+          : true) &&
+        (this.filters.asr
+          ? mosque.timings.asr[this.selectedLanguage] !== ''
+          : true) &&
+        (this.filters.maghrib
+          ? mosque.timings.maghrib[this.selectedLanguage] !== ''
+          : true) &&
+        (this.filters.isha
+          ? mosque.timings.isha[this.selectedLanguage] !== ''
+          : true) &&
+        (this.filters.juma
+          ? mosque.timings.juma[this.selectedLanguage] !== ''
+          : true)
     );
   }
 
@@ -258,10 +295,12 @@ applyFilters(): void {
 
   addOrUpdateMosque(): void {
     if (this.isEditing && this.newMosque._id) {
-      this.mosqueService.updateMosque(this.newMosque._id, this.newMosque).subscribe(() => {
-        this.loadMosques();
-        this.resetForm();
-      });
+      this.mosqueService
+        .updateMosque(this.newMosque._id, this.newMosque)
+        .subscribe(() => {
+          this.loadMosques();
+          this.resetForm();
+        });
     } else {
       this.mosqueService.addMosque(this.newMosque).subscribe(() => {
         this.loadMosques();
@@ -307,7 +346,7 @@ applyFilters(): void {
 
   viewMosqueDetails(mosque: any): void {
     if (mosque && mosque._id) {
-      this.router.navigate(['/mosque', mosque._id]);  // Redirect to mosque details page with ID
+      this.router.navigate(['/mosque', mosque._id]); // Redirect to mosque details page with ID
     }
   }
 
@@ -319,47 +358,49 @@ applyFilters(): void {
   changeSortOrder(event: Event) {
     const target = event.target as HTMLSelectElement;
     const value = target.value;
-  
+
     if (this.sortBy === value) {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     } else {
       this.sortBy = value;
       this.sortOrder = 'asc';
     }
-  
+
     this.applySorting();
   }
 
-
   // Function to calculate current and next prayer based on time ranges
-calculateCurrentAndNextPrayer(): void {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const currentDay = now.getDay(); // Get the current day (0 = Sunday, 1 = Monday, ..., 5 = Friday)
+  calculateCurrentAndNextPrayer(): void {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentDay = now.getDay(); // Get the current day (0 = Sunday, 1 = Monday, ..., 5 = Friday)
 
-  // Determine the current prayer
-  const currentPrayerObj = this.prayerTimes.find(prayer => currentHour >= prayer.start && currentHour < prayer.end);
-  this.selectedPrayer = currentPrayerObj ? currentPrayerObj.name.toLowerCase() as PrayerType : 'isha';
+    // Determine the current prayer
+    const currentPrayerObj = this.prayerTimes.find(
+      (prayer) => currentHour >= prayer.start && currentHour < prayer.end
+    );
+    this.selectedPrayer = currentPrayerObj
+      ? (currentPrayerObj.name.toLowerCase() as PrayerType)
+      : 'isha';
 
-  // Replace Dhuhr with Juma on Friday
-  if (currentDay === 5) {
-    const dhuhrPrayer = this.prayerTimes.find(prayer => prayer.name === 'Dhuhr');
-    if (dhuhrPrayer) {
-      dhuhrPrayer.name = 'Juma';  // Change Dhuhr to Juma
+    // Replace Dhuhr with Juma on Friday
+    if (currentDay === 5) {
+      const dhuhrPrayer = this.prayerTimes.find(
+        (prayer) => prayer.name === 'Dhuhr'
+      );
+      if (dhuhrPrayer) {
+        dhuhrPrayer.name = 'Juma'; // Change Dhuhr to Juma
+      }
     }
+
+    // Determine the next prayer
+    const nextPrayerObj = this.prayerTimes.find(
+      (prayer) => currentHour < prayer.start
+    );
+    this.nextPrayer = nextPrayerObj ? nextPrayerObj.name : 'Fajr'; // Default to Fajr if no next prayer found
   }
 
-  console.log(this.selectedPrayer);
-  // Determine the next prayer
-  const nextPrayerObj = this.prayerTimes.find(prayer => currentHour < prayer.start);
-  this.nextPrayer = nextPrayerObj ? nextPrayerObj.name : 'Fajr';  // Default to Fajr if no next prayer found
-}
-
-getPrayerName(key: string): string {
-  
-  const prayerName =  prayerMap[key][this.selectedLanguage] || prayerMap[key]['en'];
-  console.log("Fetching prayer name for + ", key, this.selectedLanguage, prayerName);
-  return prayerName;
-}
-
+  getPrayerName(key: string): string {
+    return prayerMap[key][this.selectedLanguage] || prayerMap[key]['en'];
+  }
 }

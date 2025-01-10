@@ -3,13 +3,19 @@
     <!-- User Information Component -->
     <app-user-info></app-user-info>
 
-    <div class="home btn" (click)="showAllMosques()" >{{ 'HEADER.ALL_MOSQUES' | translate }}</div>
+    <div class="home btn" (click)="showAllMosques()">
+      {{ "HEADER.ALL_MOSQUES" | translate }}
+    </div>
     <!-- Language Selector -->
     <div class="language-selector">
       <!--<label for="language-selector">{{ 'HEADER.SELECT_LANGUAGE' | translate }}</label>--->
-      <select id="language-selector" [(ngModel)]="selectedLanguage" (change)="onLanguageChange($event)">
-        <option value="en">{{ 'HEADER.LANGUAGE_ENGLISH' | translate }}</option>
-        <option value="ur">{{ 'HEADER.LANGUAGE_URDU' | translate }}</option>
+      <select
+        id="language-selector"
+        [(ngModel)]="selectedLanguage"
+        (change)="onLanguageChange($event)"
+      >
+        <option value="en">{{ "HEADER.LANGUAGE_ENGLISH" | translate }}</option>
+        <option value="ur">{{ "HEADER.LANGUAGE_URDU" | translate }}</option>
       </select>
     </div>
   </div>
