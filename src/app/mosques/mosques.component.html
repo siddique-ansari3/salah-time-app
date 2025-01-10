@@ -250,8 +250,6 @@
             "MOSQUE_DETAILS.AMPM." + (selectedPrayer | uppercase) | translate
           }}
         </p>
-
-        <!--<button (click)="viewMosqueDetails(mosque)">{{ 'MOSQUE_LIST.VIEW_DETAILS' | translate }}</button>-->
       </div>
       <button *ngIf="isAuthenticated()" (click)="editMosque(mosque)">
         {{ "MOSQUE_LIST.EDIT" | translate }}
