@@ -101,7 +101,7 @@ export class MosquesComponent {
     this.mosqueService.getMosques().subscribe((mosques: Mosque[]) => {
       this.mosques = mosques;
       this.filteredMosques = mosques;
-      // this.applySorting();
+      this.applySorting();
       this.calculateCurrentAndNextPrayer();
 
       this.uniqueLocations = Array.from(
