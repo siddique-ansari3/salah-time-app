@@ -212,7 +212,7 @@
         <h3>{{ mosque.name[selectedLanguage] }}</h3>
         <p>{{ mosque.location[selectedLanguage] }}</p>
         <p>
-          {{ getPrayerName(selectedPrayer) }} : {{ mosque.timings[selectedPrayer][selectedLanguage] }}
+          {{ getPrayerName(selectedPrayer) }} : {{ mosque.timings[selectedPrayer][selectedLanguage] }} {{ ('MOSQUE_DETAILS.AMPM.' + (selectedPrayer | uppercase)) | translate }}
         </p>
         
         <!--<button (click)="viewMosqueDetails(mosque)">{{ 'MOSQUE_LIST.VIEW_DETAILS' | translate }}</button>-->

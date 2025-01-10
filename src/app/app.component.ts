@@ -45,6 +45,6 @@ export class AppComponent {
   }
 
   showAllMosques(): void {
-    window.location.href = '/'; 
+    window.location.href = '/';
   }
 }
