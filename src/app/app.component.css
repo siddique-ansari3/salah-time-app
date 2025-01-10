@@ -75,7 +75,7 @@ button:hover {
   cursor: pointer;
   outline: none;
   transition: border-color 0.3s ease;
-  min-width: 120px;
+  min-width: 80px;
 }
 
 /* Content Area */
