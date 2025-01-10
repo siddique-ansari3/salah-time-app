@@ -81,9 +81,11 @@ export class MosquesComponent {
     this.selectedLanguage = this.languageService.getLanguage();
     this.languageSubscription = this.languageService.language$.subscribe(
       (lang) => {
-        this.selectedLanguage = lang;
-        // Optionally, you can trigger actions based on language change
-        this.loadMosques();
+        // Only reload if language changes
+        if (lang !== this.selectedLanguage) {
+          this.selectedLanguage = lang;
+          this.loadMosques();
+        }
       }
     );
   }
